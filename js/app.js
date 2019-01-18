@@ -1,4 +1,5 @@
-var getData = getJSON();
+// Get JSON data using the fetch api and ES7 async/await
+let getData = getJSON();
 async function getJSON() {
   try {
     const response = await fetch('../data/data.json')
@@ -11,5 +12,6 @@ async function getJSON() {
 }
 
 function output(data) {
-  console.log(data.alerts[0]);
+  let alerts = data.alerts;
+  let device_list = data.device_list;
 }
