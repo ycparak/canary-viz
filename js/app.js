@@ -16,7 +16,7 @@ async function getJSON() {
   }
 }
 
-// Higher order function responsible for controling data and d3 visualisations.
+// Higher order function responsible for controling/processing data and d3 visualisations.
 function output(data) {
   // Basic information
   let alerts = data.alerts;
@@ -25,24 +25,20 @@ function output(data) {
   let numDevices = devices.length;
 
   // Attackers information
-  let numIPMaskers = calcIPMaskers(alerts);
-  let uniqueAttackers = calcUniqueAttackers(alerts);
+  let uniqueAttackers = retrieveUniqueAttackers(alerts);
   let numUniqueAttackers = uniqueAttackers.length;
-  console.log(numUniqueAttackers);
+
+  // Type of attack information
+  let typesOfAttacks = retrieveTypesOfAttacks(alerts);
+  let numDisconnects = calcDisconnects(alerts);
+  let datesOfAttacks = retrieveDatesOfAttacks(alerts);
+  // let attackBreakdown = breakdownOfAttacks(alerts);
+
+  console.log(datesOfAttacks);
 }
 
-function calcIPMaskers(alerts) {
-  let total = 0;
-  alerts.forEach(alert => {
-    let src = alert.src_host;
-    if (src === "") {
-      total = total + 1;
-    }
-  });
-  return total;
-}
-
-function calcUniqueAttackers(alerts) {
+// Return the src_host (IP) of every unique attacker
+function retrieveUniqueAttackers(alerts) {
   let arrUniqueAttackers = []
   alerts.forEach(alert => {
     let src = alert.src_host;
@@ -51,4 +47,42 @@ function calcUniqueAttackers(alerts) {
     }
   });
   return arrUniqueAttackers;
+}
+
+// Return the unique types of attacks
+function retrieveTypesOfAttacks(alerts) {
+  let arrTypesOfAttacks = []
+  alerts.forEach(alert => {
+    let desc = alert.description;
+    if (!arrTypesOfAttacks.includes(desc)) {
+      arrTypesOfAttacks.push(desc);
+    }
+  });
+  return arrTypesOfAttacks;
+}
+
+// The number of times an alert was triggered because of a Canary Disconnect
+function calcDisconnects(alerts) {
+  let total = 0;
+  alerts.forEach(alert => {
+    let desc = alert.description;
+    if (desc === "Canary Disconnected") {
+      total = total + 1;
+    }
+  });
+  return total;
+}
+
+function retrieveDatesOfAttacks(alerts) {
+  let arrDates = [];
+  alerts.forEach(alert => {
+    let created = alert.created_printable;
+    let createdDate = new Date(created);
+    let day = createdDate.getDate();
+    let month = createdDate.getMonth();
+    let year = createdDate.getFullYear();
+    let date = day + '/' + month + '/' + year
+    arrDates.push(date);
+  });
+  return arrDates;
 }
