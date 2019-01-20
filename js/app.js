@@ -56,7 +56,7 @@ function output(data) {
     let day = createdDate.getDate();
     let month = createdDate.getMonth();
     let year = createdDate.getFullYear();
-    let date = day + "-" + month + "-" + year + " " + createdDate.getHours() + ":" + createdDate.getMinutes() + ":" + createdDate.getSeconds();
+    let date = day + "/" + month + "/" + year + " " + createdDate.getHours() + ":" + createdDate.getMinutes() + ":" + createdDate.getSeconds();
 
     returnValue.created_printable = date;
     return returnValue;
