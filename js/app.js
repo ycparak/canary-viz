@@ -23,7 +23,7 @@ var options = {
     "src_port",
     "updated"
   ],
-  item: '<tr><td class="key td-main"></td><td class="description"></td><td class="created_printable"></td></tr>'
+  item: `<tr><td class="key td-main"></td><td class="description"></td><td class="created_printable text-right"</tr>`
 };
 
 // Get JSON data using the fetch api and ES7 async/await
@@ -44,6 +44,7 @@ async function getJSON() {
   }
 }
 
+
 // Higher order function responsible for controling/processing data and d3 visualisations.
 function output(data) {
   // Change the the created_printable dates to be more readable  
@@ -55,7 +56,7 @@ function output(data) {
     let day = createdDate.getDate();
     let month = createdDate.getMonth();
     let year = createdDate.getFullYear();
-    let date = day + "/" + month + "/" + year + " " + createdDate.getHours() + ":" + createdDate.getMinutes() + ":" + createdDate.getSeconds();
+    let date = day + "-" + month + "-" + year + " " + createdDate.getHours() + ":" + createdDate.getMinutes() + ":" + createdDate.getSeconds();
 
     returnValue.created_printable = date;
     return returnValue;
@@ -66,6 +67,8 @@ function output(data) {
   let numAlerts = alerts.length;
   let numDevices = devices.length;
 
+  document.getElementById('num-incidents').innerText = numAlerts;
+
   // Attackers information
   let uniqueAttackers = retrieveUniqueAttackers(alerts);
   let numUniqueAttackers = uniqueAttackers.length;
@@ -75,15 +78,19 @@ function output(data) {
   let numDisconnects = calcDisconnects(alerts);
 }
 
+
 // Function to create the incident log with search and sort functionality
 function createIncidentLog(alerts) {
-  let incidentList = new List('incident-list', options, alerts);
+  let incidentList = new List('incident-list', options, alerts); // Instantiate new incident log
 
+  // On search
   $('#search-field').on('keyup', function () {
-    var searchString = $(this).val();
+    $("#v-pills-incidents-tab").tab("show"); // Got to incident log screen
+    var searchString = $(this).val(); // Search
     incidentList.search(searchString);
   });
 }
+
 
 // Return the src_host (IP) of every unique attacker
 function retrieveUniqueAttackers(alerts) {
@@ -97,6 +104,7 @@ function retrieveUniqueAttackers(alerts) {
   return arrUniqueAttackers;
 }
 
+
 // Return the unique types of attacks
 function retrieveTypesOfAttacks(alerts) {
   let arrTypesOfAttacks = []
@@ -108,6 +116,7 @@ function retrieveTypesOfAttacks(alerts) {
   });
   return arrTypesOfAttacks;
 }
+
 
 // The number of times an alert was triggered because of a Canary Disconnect
 function calcDisconnects(alerts) {

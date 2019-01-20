@@ -6,16 +6,30 @@
   box-shadow: 0 7px 14px 0 rgba(60, 66, 87, 0.1), 0 3px 6px 0 rgba(0, 0, 0, .07);
   padding: 0;
   margin-bottom: 24px;
+
   .card-header {
     padding: 0;
     background: @color-card-header;
     border-top-right-radius: 4px;
     border-top-left-radius: 4px;
     box-shadow: none;
+    h4 {
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 24px;
+      color: @color-body-text;
+      margin: 0;
+    }
+    span {
+      font-size: 14px;
+      line-height: 20px;
+      color: @color-card-text;
+    }
   }
   .table-header {
     padding: 16px 20px;
   }
+
   .card-body {
     padding: 0;
     margin: 0;
@@ -62,6 +76,21 @@
           color: @color-body-text;
         }
       }
+    }
+  }
+
+  .card-footer {
+    padding: 20px;
+    margin: 0;
+    background: @color-card-header;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    box-shadow: none;
+    border: none;
+    font-size: 14px;
+    color: @color-card-text;
+    #num-incidents {
+      font-weight: 500;
     }
   }
 }

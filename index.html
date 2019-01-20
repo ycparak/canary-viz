@@ -29,7 +29,10 @@
 
     <!-- Search Container -->
     <div class="central-container">
-      <input class="search" id="search-field" placeholder="Search" />
+      <div class="inner-addon left-addon">
+        <i class="glyphicon fa fa-search" aria-hidden="true"></i>
+        <input class="search form-control" id="search-field" placeholder="Search any incident..." />
+      </div>
     </div>
 
     <!-- Profile Actions Container -->
@@ -101,6 +104,7 @@
     <!-- MAIN -->
     <div class="main">
       <div class="tab-content" id="v-pills-tabContent">
+        <!-- HOME PAGE -->
         <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
           <div class="card">
             <svg 
@@ -114,14 +118,24 @@
         <!-- INCIDENTS PAGE -->
         <div class="tab-pane fade" id="v-pills-incidents" role="tabpanel" aria-labelledby="v-pills-incidents-tab">
           <div class="card">
-            <div class="card-header table-header"></div>
+            <div class="card-header table-header">
+              <div class="row">
+                <div class="col-10">
+                  <h4>Incident Log</h4>
+                  <span>Click on any of the column headers to sort by that header. Use the search box above to find a specific incident.</span>
+                </div>
+                <div class="col-2 align-self-center text-right">
+                  <button class="btn btn-medium btn-default btn-disabled disabled margin-left--4"><i class="fa fa-cloud-download" aria-hidden="true"></i> <span class="margin-left--4">Export</span></button>
+                </div>
+              </div>
+            </div>
             <div class="card-body">
               <table id="incident-list">
                 <thead class="table-head">
                   <tr>
                     <th scope="col"><span class="sort" data-sort="key">Incident ID</span></th>
                     <th scope="col"><span class="sort" data-sort="description">Description</span></th>
-                    <th scope="col"><span class="sort" data-sort="created_printable">Created</span></th>
+                    <th scope="col" class="text-right"><span class="sort" data-sort="created_printable">Created</span></th>
                   </tr>
                 </thead>
                 <tbody class="table-body list">
@@ -129,8 +143,20 @@
                 </tbody>
               </table>
             </div>
+            <div class="card-footer table-header">
+              <div class="row">
+                <div class="col-6 align-self-center">
+                  <span><span id="num-incidents"></span> total incidents</span>
+                </div>
+                <div class="col-6 text-right">
+                  <button class="btn btn-medium btn-default btn-disabled disabled">Previous</button>
+                  <button class="btn btn-medium btn-default btn-disabled disabled margin-left--4">Next</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+
         <div class="tab-pane fade" id="v-pills-attacks" role="tabpanel" aria-labelledby="v-pills-attacks-tab">Attacker Breakdown</div>
         <div class="tab-pane fade" id="v-pills-devices" role="tabpanel" aria-labelledby="v-pills-devices-tab">Device Breakdown</div>
         <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">Developers</div>
