@@ -1,0 +1,116 @@
+// main: ../styles.less, compress: false, sourceMap: false
+.icon {
+  background: #fff;
+  height: 28px;
+  width: 28px;
+  border-radius: 14px;
+  box-shadow: 0 2px 5px 0 rgba(60, 66, 87, 0.1), 0 1px 1px 0 rgba(0, 0, 0, .07);
+  display: inline-block;
+  border: none;
+  outline: none !important;
+  line-height: 28px;
+  font-size: 18px;
+  color: @color-icon;
+  cursor: pointer;
+  position: relative;
+  top: -1px;
+  &:focus,
+  &:active {
+    outline: none !important;
+  }
+}
+
+.no-background-icon {
+  background: none;
+  box-shadow: none;
+}
+
+.icon-middle {
+  margin: 0 8px 0 4px;
+}
+
+.dropdown-menu {
+  border: none;
+  box-shadow: 0px 0px 0px 1px rgba(136, 152, 170, .10), 0px 15px 35px 0px rgba(49, 49, 93, .10), 0px 5px 15px 0px rgba(0, 0, 0, .08);
+  background: #fff;
+  border-radius: 4px;
+  margin-top: 8px;
+  padding: 0;
+  .dropdown-divider {
+    color: @color-card-header-line;
+    background: @color-card-header-line;
+    border-color: @color-card-header-line;
+  }
+  .dropdown-box {
+    padding: 16px 12px 8px 12px;
+    span {
+      display: block;
+    }
+    .dropdown-email {
+      font-size: 16px;
+      color: @color-body-text;
+      font-weight: 500;
+      line-height: 16px;
+    }
+    .dropdown-auth {
+      color: @color-card-text;
+      font-size: 12px;
+      line-height: 12px;
+      margin-top: 4px;
+    }
+    .dropdown-link {
+      color: @color;
+      font-size: 14px;
+      line-height: 14px;
+      margin-bottom: 20px;
+      margin-top: -8px;
+      cursor: pointer;
+      &:nth-child(1) {
+        margin-top: -4px;
+      }
+      &:nth-child(2) {
+        margin-bottom: 4px;
+      }
+    }
+  }
+}
+
+button {
+  &:active,
+  &:focus {
+    box-shadow: none;
+    outline: none !important;
+  }
+}
+
+.btn {
+  font-size: 14px;
+  background: transparent;
+  padding: 0 8px;
+  &:active,
+  &:focus {
+    outline: none !important;
+    box-shadow: none;
+  }
+}
+
+.btn-medium {
+  height: 28px;
+  line-height: 11px;
+  padding-bottom: 2px;
+}
+
+.btn-disabled {
+  box-shadow: 0 0 0 1px rgba(42, 47, 69, 0.1), 0 2px 5px 0 rgba(42, 47, 69, 0.06), 0 1px 1px 0 rgba(0, 0, 0, 0.04), 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+  cursor: default;
+  color: @color-card-text;
+  opacity: 0.5;
+  &:hover {
+    color: @color-card-text;
+  }
+  &:active,
+  &:focus {
+    outline: none !important;
+    box-shadow: 0 0 0 1px rgba(42, 47, 69, 0.1), 0 2px 5px 0 rgba(42, 47, 69, 0.06), 0 1px 1px 0 rgba(0, 0, 0, 0.04), 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+  }
+}

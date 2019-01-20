@@ -3,22 +3,177 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>The Canary Console</title>
+  <title>Canary Console</title>
 
   <!-- STYLESHEETS -->
   <!-- Bootstrap -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" crossorigin="anonymous">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,700,900|Space+Mono:400,700" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
   <!-- Styles -->
   <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
+  <!-- NAVBAR -->
+  <div class="navbar">
+
+    <!-- Logo Container -->
+    <div class="logo-container">
+      <div class="icon business-icon">
+        <img src="./assets/airbnb.png" alt="Arbnb logo">
+      </div>
+      <div class="business-name">Airbnb</div>
+    </div>
+
+    <!-- Search Container -->
+    <div class="central-container">
+      <div class="inner-addon left-addon">
+        <i class="glyphicon fa fa-search" aria-hidden="true"></i>
+        <input class="search form-control" id="search-field" placeholder="Search any incident..." />
+      </div>
+    </div>
+
+    <!-- Profile Actions Container -->
+    <div class="profile-container">
+      <!-- Guides icon -->
+      <div class="btn-group">
+        <button class="icon no-background-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-book" aria-hidden="true"></i></button>
+        <div class="dropdown-menu dropdown-menu-right">
+          <div class="dropdown-box">
+            <span class="dropdown-link">Documentation <i class="fa fa-external-link" aria-hidden="true"></i></span>
+            <span class="dropdown-link">Support <i class="fa fa-external-link" aria-hidden="true"></i></span>
+          </div>
+        </div>
+      </div>
+      <!-- Notifications icon -->
+      <div class="btn-group">
+        <button class="icon no-background-icon icon-middle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bell" aria-hidden="true"></i></button>
+        <div class="dropdown-menu dropdown-menu-right">
+          <div class="dropdown-box"></div>
+        </div>
+      </div>
+      <!-- Profile icon -->
+      <div class="btn-group">
+        <button class="icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user" aria-hidden="true"></i></button>
+        <div class="dropdown-menu dropdown-menu-right">
+          <div class="dropdown-box">
+            <span class="dropdown-email">brian.chesky@airbnb.com</span>
+            <span class="dropdown-auth">Exec-level Access</span>
+          </div>
+          <div class="dropdown-divider"></div>
+            <div class="dropdown-box">
+              <span class="dropdown-link">Profile</span>
+              <span class="dropdown-link">Sign out</span>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BODY SECTION -->
+  <section>
+    <!-- SMALL DEVICE NAV -->
+    <div class="small-nav">
+
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+        <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home"
+          aria-selected="true"><span class="sidebar-icon"><i class="fa fa-home" aria-hidden="true"></i></span>Home</a>
+
+          <a class="nav-link" id="v-pills-incidents-tab" data-toggle="pill" href="#v-pills-incidents" role="tab" aria-controls="v-pills-incidents"
+            aria-selected="false"><span class="sidebar-icon"><i class="fa fa-file-text-o" aria-hidden="true"></i></span>Incident Log</a>
+          <a class="nav-link" id="v-pills-attacks-tab" data-toggle="pill" href="#v-pills-attacks" role="tab" aria-controls="v-pills-attacks"
+            aria-selected="false"><span class="sidebar-icon"><i class="fa fa-pie-chart" aria-hidden="true"></i></span>Attacker Breakdown</a>
+          <a class="nav-link" id="v-pills-devices-tab" data-toggle="pill" href="#v-pills-devices" role="tab" aria-controls="v-pills-devices"
+            aria-selected="false"><span class="sidebar-icon"><i class="fa fa-laptop" aria-hidden="true"></i></span>Device Breakdown</a>
+
+
+          <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages"
+            aria-selected="false"><span class="sidebar-icon"><i class="fa fa-code" aria-hidden="true"></i></span>Developers</a>
+          <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings"
+            aria-selected="false"><span class="sidebar-icon"><i class="fa fa-cog" aria-hidden="true"></i></span>Business Settings</a>
+
+      </div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+      <div class="tab-content" id="v-pills-tabContent">
+        <!-- HOME PAGE -->
+        <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+          <div class="card">
+            <svg 
+              version="1.1"
+              baseProfile="full"
+              xmlns="http://www.w3.org/2000/svg">
+            </svg>
+          </div>
+        </div>
+
+        <!-- INCIDENTS PAGE -->
+        <div class="tab-pane fade" id="v-pills-incidents" role="tabpanel" aria-labelledby="v-pills-incidents-tab">
+          <div class="card">
+            <div class="card-header table-header">
+              <div class="row">
+                <div class="col-10">
+                  <h4>Incident Log</h4>
+                  <span>Click on any of the column headers to sort by that header. Use the search box above to find a specific incident.</span>
+                </div>
+                <div class="col-2 align-self-center text-right">
+                  <button class="btn btn-medium btn-default btn-disabled disabled margin-left--4"><i class="fa fa-cloud-download" aria-hidden="true"></i> <span class="margin-left--4">Export</span></button>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <table id="incident-list">
+                <thead class="table-head">
+                  <tr>
+                    <th scope="col"><span class="sort" data-sort="key">Incident ID</span></th>
+                    <th scope="col"><span class="sort" data-sort="description">Description</span></th>
+                    <th scope="col" class="text-right"><span class="sort" data-sort="created_printable">Created</span></th>
+                  </tr>
+                </thead>
+                <tbody class="table-body list">
+
+                </tbody>
+              </table>
+            </div>
+            <div class="card-footer table-header">
+              <div class="row">
+                <div class="col-6 align-self-center">
+                  <span><span id="num-incidents"></span> total incidents</span>
+                </div>
+                <div class="col-6 text-right">
+                  <button class="btn btn-medium btn-default btn-disabled disabled">Previous</button>
+                  <button class="btn btn-medium btn-default btn-disabled disabled margin-left--4">Next</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-pane fade" id="v-pills-attacks" role="tabpanel" aria-labelledby="v-pills-attacks-tab">Attacker Breakdown</div>
+        <div class="tab-pane fade" id="v-pills-devices" role="tabpanel" aria-labelledby="v-pills-devices-tab">Device Breakdown</div>
+        <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">Developers</div>
+        <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">Business Settings</div>
+      </div>
+    </div>
+  </section>
 
   <!-- JAVASCRIPT -->
   <!-- Bootstrap -->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+  <!-- D3.js -->
   <script src="https://d3js.org/d3.v4.js"></script>
+  <!-- List.js -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
   <!-- App.js -->
   <script type="text/javascript" src="./js/app.js"></script>
 </body>

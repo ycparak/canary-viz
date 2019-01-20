@@ -1,0 +1,84 @@
+// main: ../styles.less, compress: false, sourceMap: false
+/*
+** NAVBAR
+*/
+.navbar {
+  height: 60px;
+  width: 100%;
+  padding: 0 44px;
+  line-height: 60px;
+  display: grid;
+  grid-template-columns: 260px 1fr 260px;
+  align-items: center;
+
+  .logo-container {
+    .business-icon {
+      display: inline-block;
+      position: relative;
+      top: -4px;
+      img {
+        width: 20px;
+        position: relative;
+        left: 4px;
+        top: 3px;
+      }
+    }
+    .business-name {
+      display: inline-block;
+      font-size: 18px;
+      margin-left: 4px;
+      position: relative;
+      top: 1px;
+    }
+  }
+
+  .central-container {
+    /* enable absolute positioning */
+    .inner-addon { 
+        position: relative; 
+    }
+
+    /* style icon */
+    .inner-addon .glyphicon {
+      position: absolute;
+      padding: 6.5px 10px 10px 10px;
+      pointer-events: none;
+      color: lighten(@color-icon, 12%);
+    }
+
+    /* align icon */
+    .left-addon .glyphicon  { left:  0px;}
+    .right-addon .glyphicon { right: 0px;}
+
+    /* add padding  */
+    .left-addon input  { padding-left:  30px; }
+    .right-addon input { padding-right: 30px; }
+
+    .search {
+      border: none;
+      width: 460px;
+      font-size: 14px;
+      height: 28px;
+      box-shadow: 0 0 0 1px rgba(49,49,93,.03), 0 2px 5px 0 rgba(49,49,93,.1), 0 1px 2px 0 rgba(0,0,0,.08);
+      padding: 8px;
+      background-color: #fff;
+      background-size: 13px 13px;
+      border-radius: 4px;
+      line-height: 28px;
+      transition: box-shadow .2s ease-in-out;
+      color: @color-card-text;
+      &::placeholder {
+        color: @color-icon;
+        font-weight: 300;
+      }
+      &:active, &:focus {
+        outline: none !important;
+      }
+    }
+  }
+
+  .profile-container {
+    justify-self: end;
+  }
+
+}
