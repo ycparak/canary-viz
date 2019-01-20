@@ -1,3 +1,31 @@
+// Structure of JSON object for listing, sorting and searching the incidents
+var options = {
+  valueNames: [
+    "acknowledged",
+    "created",
+    "created_age",
+    "created_age_seconds",
+    "created_printable",
+    "description",
+    "dst_host",
+    "dst_port",
+    "events_count",
+    "ip_address",
+    "ippers",
+    "key",
+    "local_time",
+    "logtype",
+    "mac_address",
+    "node_id",
+    "notified",
+    "src_host",
+    "src_host_reverse",
+    "src_port",
+    "updated"
+  ],
+  item: '<tr><td class="key td-main"></td><td class="description"></td><td class="created_printable"></td></tr>'
+};
+
 // Get JSON data using the fetch api and ES7 async/await
 /*
     The fetch api has limited browser supoort and yet I still chose to use it.
@@ -18,9 +46,23 @@ async function getJSON() {
 
 // Higher order function responsible for controling/processing data and d3 visualisations.
 function output(data) {
-  // Basic information
-  let alerts = data.alerts;
+  // Change the the created_printable dates to be more readable  
+  let alerts = data.alerts.map(alert => {
+    var returnValue = {...alert};
+
+    let created = alert.created_printable;
+    let createdDate = new Date(created);
+    let day = createdDate.getDate();
+    let month = createdDate.getMonth();
+    let year = createdDate.getFullYear();
+    let date = day + "/" + month + "/" + year + " " + createdDate.getHours() + ":" + createdDate.getMinutes() + ":" + createdDate.getSeconds();
+
+    returnValue.created_printable = date;
+    return returnValue;
+  })
   let devices = data.device_list;
+  createIncidentLog(alerts);
+
   let numAlerts = alerts.length;
   let numDevices = devices.length;
 
@@ -31,10 +73,16 @@ function output(data) {
   // Type of attack information
   let typesOfAttacks = retrieveTypesOfAttacks(alerts);
   let numDisconnects = calcDisconnects(alerts);
-  let datesOfAttacks = retrieveDatesOfAttacks(alerts);
-  // let attackBreakdown = breakdownOfAttacks(alerts);
+}
 
-  console.log(datesOfAttacks);
+// Function to create the incident log with search and sort functionality
+function createIncidentLog(alerts) {
+  let incidentList = new List('incident-list', options, alerts);
+
+  $('#search-field').on('keyup', function () {
+    var searchString = $(this).val();
+    incidentList.search(searchString);
+  });
 }
 
 // Return the src_host (IP) of every unique attacker
@@ -71,18 +119,4 @@ function calcDisconnects(alerts) {
     }
   });
   return total;
-}
-
-function retrieveDatesOfAttacks(alerts) {
-  let arrDates = [];
-  alerts.forEach(alert => {
-    let created = alert.created_printable;
-    let createdDate = new Date(created);
-    let day = createdDate.getDate();
-    let month = createdDate.getMonth();
-    let year = createdDate.getFullYear();
-    let date = day + '/' + month + '/' + year
-    arrDates.push(date);
-  });
-  return arrDates;
 }

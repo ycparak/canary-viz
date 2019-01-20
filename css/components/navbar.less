@@ -8,27 +8,48 @@
   padding: 0 44px;
   line-height: 60px;
   display: grid;
-  grid-template-columns: 304px 1fr 304px;
+  grid-template-columns: 260px 1fr 260px;
+  align-items: center;
 
-  .business-icon {
-    display: inline-block;
-    position: relative;
-    top: -5px;
-    img {
-      width: 20px;
+  .logo-container {
+    .business-icon {
+      display: inline-block;
       position: relative;
-      left: 4px;
-      top: 3px;
+      top: -4px;
+      img {
+        width: 20px;
+        position: relative;
+        left: 4px;
+        top: 3px;
+      }
+    }
+    .business-name {
+      display: inline-block;
+      font-size: 18px;
+      margin-left: 4px;
+      position: relative;
+      top: 1px;
     }
   }
-  
-  .business-name {
-    display: inline-block;
-    font-size: 18px;
-    margin-left: 4px;
+
+  .central-container {
+    .search {
+      border: none;
+      width: 460px;
+      font-size: 14px;
+      height: 28px;
+      box-shadow: 0 0 0 1px rgba(49,49,93,.03), 0 2px 5px 0 rgba(49,49,93,.1), 0 1px 2px 0 rgba(0,0,0,.08);
+      padding: 8px;
+      background-color: #fff;
+      background-size: 13px 13px;
+      border-radius: 4px;
+      line-height: 28px;
+      transition: box-shadow .2s ease-in-out;
+    }
   }
 
   .profile-container {
     justify-self: end;
   }
+
 }
