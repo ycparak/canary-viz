@@ -3,15 +3,109 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>The Canary Console</title>
+  <title>Canary Console</title>
 
   <!-- STYLESHEETS -->
   <!-- Bootstrap -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" crossorigin="anonymous">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,700,900|Space+Mono:400,700" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
   <!-- Styles -->
   <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
+  <!-- NAVBAR -->
+  <div class="navbar">
+    <div class="logo-container">
+      <div class="icon business-icon">
+        <img src="./assets/airbnb.png" alt="Arbnb logo">
+      </div>
+      <div class="business-name">Airbnb</div>
+    </div>
+
+    <div class="central-container"></div>
+
+    <div class="profile-container">
+      <!-- Guides icon -->
+      <div class="btn-group">
+        <button class="icon no-background-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-book" aria-hidden="true"></i></button>
+        <div class="dropdown-menu dropdown-menu-right">
+          <div class="dropdown-box">
+            <span class="dropdown-link">Documentation <i class="fa fa-external-link" aria-hidden="true"></i></span>
+            <span class="dropdown-link">Support <i class="fa fa-external-link" aria-hidden="true"></i></span>
+          </div>
+        </div>
+      </div>
+      <!-- Notifications icon -->
+      <div class="btn-group">
+        <button class="icon no-background-icon icon-middle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bell" aria-hidden="true"></i></button>
+        <div class="dropdown-menu dropdown-menu-right">
+          <div class="dropdown-box"></div>
+        </div>
+      </div>
+      <!-- Profile icon -->
+      <div class="btn-group">
+        <button class="icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user" aria-hidden="true"></i></button>
+        <div class="dropdown-menu dropdown-menu-right">
+          <div class="dropdown-box">
+            <span class="dropdown-email">brian.chesky@airbnb.com</span>
+            <span class="dropdown-auth">Exec-level Access</span>
+          </div>
+          <div class="dropdown-divider"></div>
+            <div class="dropdown-box">
+              <span class="dropdown-link">Profile</span>
+              <span class="dropdown-link">Sign out</span>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <section>
+    <!-- SMALL DEVICE NAV -->
+    <div class="small-nav">
+
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+        <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home"
+          aria-selected="true"><span class="sidebar-icon"><i class="fa fa-home" aria-hidden="true"></i></span>Home</a>
+
+          <a class="nav-link" id="v-pills-incidents-tab" data-toggle="pill" href="#v-pills-incidents" role="tab" aria-controls="v-pills-incidents"
+            aria-selected="false"><span class="sidebar-icon"><i class="fa fa-file-text-o" aria-hidden="true"></i></span>Incident Log</a>
+          <a class="nav-link" id="v-pills-attacks-tab" data-toggle="pill" href="#v-pills-attacks" role="tab" aria-controls="v-pills-attacks"
+            aria-selected="false"><span class="sidebar-icon"><i class="fa fa-pie-chart" aria-hidden="true"></i></span>Attacker Breakdown</a>
+          <a class="nav-link" id="v-pills-devices-tab" data-toggle="pill" href="#v-pills-devices" role="tab" aria-controls="v-pills-devices"
+            aria-selected="false"><span class="sidebar-icon"><i class="fa fa-laptop" aria-hidden="true"></i></span>Device Breakdown</a>
+
+
+          <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages"
+            aria-selected="false"><span class="sidebar-icon"><i class="fa fa-code" aria-hidden="true"></i></span>Developers</a>
+          <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings"
+            aria-selected="false"><span class="sidebar-icon"><i class="fa fa-cog" aria-hidden="true"></i></span>Business Settings</a>
+
+      </div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+      <div class="tab-content" id="v-pills-tabContent">
+        <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+          <div class="card"></div>
+        </div>
+        <div class="tab-pane fade" id="v-pills-incidents" role="tabpanel" aria-labelledby="v-pills-incidents-tab">Incident Log</div>
+        <div class="tab-pane fade" id="v-pills-attacks" role="tabpanel" aria-labelledby="v-pills-attacks-tab">Attacker Breakdown</div>
+        <div class="tab-pane fade" id="v-pills-devices" role="tabpanel" aria-labelledby="v-pills-devices-tab">Device Breakdown</div>
+        <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">Developers</div>
+        <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">Business Settings</div>
+      </div>
+    </div>
+  </section>
 
   <!-- JAVASCRIPT -->
   <!-- Bootstrap -->

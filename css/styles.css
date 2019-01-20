@@ -1,0 +1,176 @@
+/*
+**  TYPOGRAPHY
+*/
+/*
+**  COLORS
+*/
+body {
+  background-color: #E3E8EE;
+  font-family: 'Rubik', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 14px;
+  min-height: 100vh;
+}
+section {
+  display: grid;
+}
+@media (min-width: 992px) {
+  section {
+    grid-template-columns: 304px 1fr;
+    min-height: calc(100vh - 60px);
+  }
+}
+.small-nav {
+  display: block;
+  height: 60px;
+}
+@media (min-width: 992px) {
+  .small-nav {
+    display: none;
+  }
+}
+.sidebar {
+  display: none;
+  padding: 0 12px 0 44px;
+}
+@media (min-width: 992px) {
+  .sidebar {
+    display: block;
+  }
+}
+.main {
+  padding-right: 44px;
+}
+/*
+** NAVBAR
+*/
+.navbar {
+  height: 60px;
+  width: 100%;
+  padding: 0 44px;
+  line-height: 60px;
+  display: grid;
+  grid-template-columns: 304px 1fr 304px;
+}
+.navbar .business-icon {
+  display: inline-block;
+  position: relative;
+  top: -5px;
+}
+.navbar .business-icon img {
+  width: 20px;
+  position: relative;
+  left: 4px;
+  top: 3px;
+}
+.navbar .business-name {
+  display: inline-block;
+  font-size: 18px;
+  margin-left: 4px;
+}
+.navbar .profile-container {
+  justify-self: end;
+}
+.nav-pills {
+  padding-top: 2px;
+}
+.nav-pills .nav-link {
+  padding: 4px 0;
+  line-height: 1;
+  margin-bottom: 4px;
+  background-color: transparent !important;
+  color: #2a2f45;
+  position: relative;
+  left: 8px;
+}
+.nav-pills .active {
+  color: #556cd6 !important;
+  font-weight: 500;
+}
+.nav-pills #v-pills-home-tab,
+.nav-pills #v-pills-devices-tab {
+  margin-bottom: 20px;
+}
+.nav-pills .sidebar-icon {
+  width: 28px;
+  display: inline-block;
+}
+.icon {
+  background: #fff;
+  height: 28px;
+  width: 28px;
+  border-radius: 14px;
+  box-shadow: 0 2px 5px 0 rgba(60, 66, 87, 0.1), 0 1px 1px 0 rgba(0, 0, 0, 0.07);
+  display: inline-block;
+  border: none;
+  outline: none !important;
+  line-height: 28px;
+  font-size: 18px;
+  color: #A3ACB8;
+  cursor: pointer;
+  position: relative;
+  top: -1px;
+}
+.icon:focus,
+.icon:active {
+  outline: none !important;
+}
+.no-background-icon {
+  background: none;
+  box-shadow: none;
+}
+.icon-middle {
+  margin: 0 8px 0 4px;
+}
+.dropdown-menu {
+  border: none;
+  box-shadow: 0px 0px 0px 1px rgba(136, 152, 170, 0.1), 0px 15px 35px 0px rgba(49, 49, 93, 0.1), 0px 5px 15px 0px rgba(0, 0, 0, 0.08);
+  background: #fff;
+  border-radius: 4px;
+  margin-top: 8px;
+  padding: 0;
+}
+.dropdown-menu .dropdown-divider {
+  color: #E3E8EE;
+  background: #E3E8EE;
+  border-color: #E3E8EE;
+}
+.dropdown-menu .dropdown-box {
+  padding: 16px 12px 8px 12px;
+}
+.dropdown-menu .dropdown-box span {
+  display: block;
+}
+.dropdown-menu .dropdown-box .dropdown-email {
+  font-size: 16px;
+  color: #2a2f45;
+  font-weight: 500;
+  line-height: 16px;
+}
+.dropdown-menu .dropdown-box .dropdown-auth {
+  color: #4f566b;
+  font-size: 12px;
+  line-height: 12px;
+  margin-top: 4px;
+}
+.dropdown-menu .dropdown-box .dropdown-link {
+  color: #556cd6;
+  font-size: 14px;
+  line-height: 14px;
+  margin-bottom: 20px;
+  margin-top: -8px;
+  cursor: pointer;
+}
+.dropdown-menu .dropdown-box .dropdown-link:nth-child(1) {
+  margin-top: -4px;
+}
+.dropdown-menu .dropdown-box .dropdown-link:nth-child(2) {
+  margin-bottom: 4px;
+}
+.card {
+  background: #FFF;
+  border: none;
+  padding: 24px 32px;
+  border-radius: 4px;
+  min-height: 40vh;
+  box-shadow: 0 7px 14px 0 rgba(60, 66, 87, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.07);
+}

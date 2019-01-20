@@ -1,0 +1,32 @@
+// main: ../styles.less, compress: false, sourceMap: false
+section {
+  display: grid;
+
+  // Large devices (normal monitors, 992px and up)
+  @media (min-width: 992px) {
+    grid-template-columns: 304px 1fr;
+    min-height: calc(~"100vh - 60px"); 
+  }
+}
+
+.small-nav {
+  display: block;
+  height: 60px;
+
+  @media (min-width: 992px) {
+    display: none;
+  }
+}
+
+.sidebar {
+  display: none;
+  padding: 0 12px 0 44px;
+
+  @media (min-width: 992px) {
+    display: block;
+  }
+}
+
+.main {
+  padding-right: 44px;
+}
