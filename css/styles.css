@@ -349,3 +349,6 @@ button:focus {
 .card .card-footer #num-incidents {
   font-weight: 500;
 }
+svg {
+  margin: 40px;
+}

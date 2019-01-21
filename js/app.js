@@ -118,32 +118,40 @@ function typesOfAttacksData(alerts) {
 ** VISUALISATIONS
 **
 */
-// Function to do visualisation 1
+// Function to display the histogram showing the number of attacks by each description
 function displayDescriptionViz(data) {
   let width = 500;
-  let height = 200;
+  let height = 400;
   let numBars = data.length;
-  let barPadding = 10;
+  let barPadding = 5;
   let barWidth = width / numBars - barPadding;
+  let maxQuantity = d3.max(data, d => { return d.quantity });
+  let yScale = d3.scaleLinear().domain([0, maxQuantity]).range([height, 0]);
 
-  d3.select("svg")
-      .attr("width", width)
-      .attr("height", height)
-    .selectAll("rect")
-    .data(data)
-    .enter()
+  let bars = d3.select("svg")
+                  .attr("width", width)
+                  .attr("height", height)
+                .selectAll(".bar")
+                .data(data)
+                .enter()
+                .append("g")
+                  .classed("bar", true)
+
+  bars
     .append("rect")
+      .attr("y", d => yScale(d.quantity))
+      .attr("x", (d, i) => (barWidth + barPadding) * i)
       .attr("width", barWidth)
-      .attr("height", d => {
-        return d.quantity / 47 * height;
-      })
-      .attr("y", d => {
-        return height - d.quantity / 50 * height;
-      })
-      .attr("x", (d, i) => {
-        return (barWidth + barPadding) * i;
-      })
-    .attr("fill", "#6772E5")
+      .attr("height", d => height - yScale(d.quantity))
+      .attr("fill", "#6772E5")
+
+  bars
+    .append("text")
+      .text(d => d.description)
+      .attr("transform", "rotate(-90)")
+      .attr("y", (d, i) => ((barWidth + barPadding) * i) + (barWidth / 2))
+      .attr("x", - height)
+      .style("alignment-baseline", "middle");
 }
 
 // Function to display the incident log
@@ -186,19 +194,5 @@ function retrieveUniqueAttackers(alerts) {
     }
   });
   return arrUniqueAttackers;
-}
-*/
-
-/*
-// The number of times an alert was triggered because of a Canary Disconnect
-function calcDisconnects(alerts) {
-  let total = 0;
-  alerts.forEach(alert => {
-    let desc = alert.description;
-    if (desc === "Canary Disconnected") {
-      total = total + 1;
-    }
-  });
-  return total;
 }
 */
