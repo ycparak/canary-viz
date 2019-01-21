@@ -48,7 +48,8 @@ async function getJSON() {
 // Higher order function responsible for controling/processing data and d3 visualisations.
 function output(data) {
   // Change the the created_printable dates to be more readable  
-  let alerts = data.alerts.map(alert => {
+  let alerts = data.alerts;
+  let alertsWithReadableDate = data.alerts.map(alert => {
     var returnValue = {...alert};
 
     let created = alert.created_printable;
@@ -62,20 +63,18 @@ function output(data) {
     return returnValue;
   })
   let devices = data.device_list;
-  createIncidentLog(alerts);
+  createIncidentLog(alertsWithReadableDate);
 
   let numAlerts = alerts.length;
   let numDevices = devices.length;
-
   document.getElementById('num-incidents').innerText = numAlerts;
 
-  // Attackers information
-  let uniqueAttackers = retrieveUniqueAttackers(alerts);
-  let numUniqueAttackers = uniqueAttackers.length;
+  viz1(alerts);
 
-  // Type of attack information
+  /*let uniqueAttackers = retrieveUniqueAttackers(alerts);
+  let numUniqueAttackers = uniqueAttackers.length;
   let typesOfAttacks = retrieveTypesOfAttacks(alerts);
-  let numDisconnects = calcDisconnects(alerts);
+  let numDisconnects = calcDisconnects(alerts);*/
 }
 
 
@@ -91,19 +90,68 @@ function createIncidentLog(alerts) {
   });
 }
 
+let dataStyle = [
+  {
+    "description": "Canary Disconeected",
+    "quantity": 40
+  },
+  {
+    "description": "HTTP Login Attempt",
+    "quantity": 13
+  },
+  {
+    "description": "Host Port Scan",
+    "quantity": 15
+  },
+]
 
-// Return the src_host (IP) of every unique attacker
-function retrieveUniqueAttackers(alerts) {
-  let arrUniqueAttackers = []
-  alerts.forEach(alert => {
-    let src = alert.src_host;
-    if (!arrUniqueAttackers.includes(src) && src !== "") {
-      arrUniqueAttackers.push(src)
-    }
-  });
-  return arrUniqueAttackers;
+// Function to do visualisation 1
+function viz1(alerts) {
+  let attackTypes = retrieveTypesOfAttacks(alerts);
+  let data = [];
+
+  // Populate data array with objects containing a description and the amount o times an attack of that description has occured
+  attackTypes.forEach(type => {
+    let newObj = new Object();
+    newObj.description = type;
+    newObj.quantity = 0;
+    data.push(newObj)
+  })
+  alerts.map((alert) => {
+    let desc = alert.description;
+    data.forEach(d => {
+      if (d.description === desc) {
+        d.quantity++;
+      }
+    })
+  })
+  console.log(data)
+
+  let width = 1000;
+  let height = 200;
+  let numBars = data.length;
+  let barPadding = 10;
+  let barWidth = width / numBars - barPadding;
+
+  d3.select("svg")
+      .attr("width", width)
+      .attr("height", height)
+    .selectAll("rect")
+    .data(data)
+    .enter()
+    .append("rect")
+      .attr("width", barWidth)
+      .attr("height", d => {
+        return d.quantity / 47 * height;
+      })
+      .attr("y", d => {
+        return height - d.quantity / 50 * height;
+      })
+      .attr("x", (d, i) => {
+        return (barWidth + barPadding) * i;
+      })
+    .attr("fill", "#6772E5")
 }
-
 
 // Return the unique types of attacks
 function retrieveTypesOfAttacks(alerts) {
@@ -117,7 +165,21 @@ function retrieveTypesOfAttacks(alerts) {
   return arrTypesOfAttacks;
 }
 
+/*
+// Return the src_host (IP) of every unique attacker
+function retrieveUniqueAttackers(alerts) {
+  let arrUniqueAttackers = []
+  alerts.forEach(alert => {
+    let src = alert.src_host;
+    if (!arrUniqueAttackers.includes(src) && src !== "") {
+      arrUniqueAttackers.push(src)
+    }
+  });
+  return arrUniqueAttackers;
+}
+*/
 
+/*
 // The number of times an alert was triggered because of a Canary Disconnect
 function calcDisconnects(alerts) {
   let total = 0;
@@ -129,3 +191,4 @@ function calcDisconnects(alerts) {
   });
   return total;
 }
+*/
