@@ -1,31 +1,3 @@
-// Structure of JSON object for listing, sorting and searching the incidents
-var options = {
-  valueNames: [
-    "acknowledged",
-    "created",
-    "created_age",
-    "created_age_seconds",
-    "created_printable",
-    "description",
-    "dst_host",
-    "dst_port",
-    "events_count",
-    "ip_address",
-    "ippers",
-    "key",
-    "local_time",
-    "logtype",
-    "mac_address",
-    "node_id",
-    "notified",
-    "src_host",
-    "src_host_reverse",
-    "src_port",
-    "updated"
-  ],
-  item: `<tr><td class="key td-main"></td><td class="description"></td><td class="created_printable text-right"</tr>`
-};
-
 /*
 **
 ** PULL DATA
@@ -78,9 +50,9 @@ function output(data) {
 
   // Process and clean data for the different visualisations
   let attackDescriptionData = typesOfAttacksData(alerts);
+  let attackerCountData = attackerData(alerts);
 
   // Display the respective visualisations
-  displayDescriptionViz(attackDescriptionData);
   displayIncidentLog(alertsWithReadableDate);
   document.getElementById("num-incidents").innerText = numAlerts;
 }
@@ -96,17 +68,53 @@ function typesOfAttacksData(alerts) {
   let data = [];
 
   attackTypes.forEach(type => {
-    let newObj = new Object();
-    newObj.description = type;
-    newObj.quantity = 0;
+    let desc = abbreviate(type)
+    let newObj = new Object({
+      'description': type,
+      'desc': desc,
+      'total': 0,
+      'src_host': {}
+    });
     data.push(newObj);
   });
   alerts.map(alert => {
     let desc = alert.description;
+    let ip = alert.src_host;
     data.forEach(d => {
       if (d.description === desc) {
-        d.quantity++;
+        d.total++;
+        if (d.src_host[ip] !== undefined) {
+          d.src_host[ip] = d.src_host[ip] + 1;
+        }
+        else if (ip !== "") {
+          d.src_host = {
+            ...d.src_host,
+            [`${ip}`]: 1
+          }
+        }
       }
+    });
+  });
+
+  return data;
+}
+
+// Populate array with objects containing a src_ip and the amount of times it’s caused an attack
+function attackerData(alerts) {
+  let attackerTypes = retrieveUniqueAttackers(alerts);
+  let data = [];
+
+  attackerTypes.forEach(ip => {
+    let newObj = new Object({
+      'ip': ip,
+      'total': 0,
+    });
+    data.push(newObj);
+  });
+  alerts.map(alert => {
+    let ip = alert.src_host !== "" ? alert.src_host : "Canary Disconnected";
+    data.forEach(d => {
+      if (d.ip == ip) d.total = d.total + 1;
     });
   });
 
@@ -118,44 +126,36 @@ function typesOfAttacksData(alerts) {
 ** VISUALISATIONS
 **
 */
-// Function to display the histogram showing the number of attacks by each description
-function displayDescriptionViz(data) {
-  let width = 500;
-  let height = 400;
-  let numBars = data.length;
-  let barPadding = 5;
-  let barWidth = width / numBars - barPadding;
-  let maxQuantity = d3.max(data, d => { return d.quantity });
-  let yScale = d3.scaleLinear().domain([0, maxQuantity]).range([height, 0]);
-
-  let bars = d3.select("svg")
-                  .attr("width", width)
-                  .attr("height", height)
-                .selectAll(".bar")
-                .data(data)
-                .enter()
-                .append("g")
-                  .classed("bar", true)
-
-  bars
-    .append("rect")
-      .attr("y", d => yScale(d.quantity))
-      .attr("x", (d, i) => (barWidth + barPadding) * i)
-      .attr("width", barWidth)
-      .attr("height", d => height - yScale(d.quantity))
-      .attr("fill", "#6772E5")
-
-  bars
-    .append("text")
-      .text(d => d.description)
-      .attr("transform", "rotate(-90)")
-      .attr("y", (d, i) => ((barWidth + barPadding) * i) + (barWidth / 2))
-      .attr("x", - height)
-      .style("alignment-baseline", "middle");
-}
 
 // Function to display the incident log
 function displayIncidentLog(alerts) {
+  // Structure of JSON object for listing, sorting and searching the incidents
+  const options = {
+    valueNames: [
+      "acknowledged",
+      "created",
+      "created_age",
+      "created_age_seconds",
+      "created_printable",
+      "description",
+      "dst_host",
+      "dst_port",
+      "events_count",
+      "ip_address",
+      "ippers",
+      "key",
+      "local_time",
+      "logtype",
+      "mac_address",
+      "node_id",
+      "notified",
+      "src_host",
+      "src_host_reverse",
+      "src_port",
+      "updated"
+    ],
+    item: `<tr><td class="key td-main"></td><td class="description"></td><td class="created_printable text-right"</tr>`
+  };
   let incidentList = new List('incident-list', options, alerts); // Instantiate new incident log
 
   // On search
@@ -183,16 +183,23 @@ function retrieveTypesOfAttacks(alerts) {
   return arrTypesOfAttacks;
 }
 
-/*
+// Abreviate descriptions
+function abbreviate(str1) {
+  var split_names = str1.trim().split(" ");
+  if (split_names.length > 1) {
+    return (split_names[0] + " " + split_names[1].charAt(0) + ".");
+  }
+  return split_names[0];
+}
+
 // Return the src_host (IP) of every unique attacker
 function retrieveUniqueAttackers(alerts) {
   let arrUniqueAttackers = []
   alerts.forEach(alert => {
-    let src = alert.src_host;
-    if (!arrUniqueAttackers.includes(src) && src !== "") {
+    let src = alert.src_host !== "" ? alert.src_host : "Canary Disconnected";
+    if (!arrUniqueAttackers.includes(src)) {
       arrUniqueAttackers.push(src)
     }
   });
   return arrUniqueAttackers;
 }
-*/
