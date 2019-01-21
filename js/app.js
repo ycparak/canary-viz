@@ -53,6 +53,7 @@ function output(data) {
   let attackerCountData = attackerData(alerts);
 
   // Display the respective visualisations
+  displayAttackerPieChart(attackerCountData)
   displayIncidentLog(alertsWithReadableDate);
   document.getElementById("num-incidents").innerText = numAlerts;
 }
@@ -126,6 +127,40 @@ function attackerData(alerts) {
 ** VISUALISATIONS
 **
 */
+function displayAttackerPieChart(data) {
+  let width = 250;
+  let height = 250;
+  let ip_addresses = [];
+  data.forEach(i => { ip_addresses.push(i.ip) });
+  let colorScale = d3.scaleOrdinal().domain(ip_addresses).range(d3.schemeCategory20c);
+
+  d3.select('.basic-pie')
+      .attr('width', width)
+      .attr('height', height)
+    .append('g')
+      .attr('transform', 'translate(' + width / 2 + ', ' + height / 2 + ')')
+      .classed('pieGroup', true)
+
+  let arcs = d3.pie()
+    .value(d => d.total)(data);
+
+  let path = d3.arc()  
+    .outerRadius(width / 2 - 10)
+    .innerRadius(width / 4)
+    .cornerRadius(6)
+    .padAngle(0.01)
+
+  d3.select(".pieGroup")
+    .selectAll('.arc')
+    .data(arcs)
+    .enter()
+    .append('path')
+      .classed('arc', true)
+      // .attr('fill', 'd => colorScale( d.data.ip )')
+      .attr('fill', '#566CD6')
+    .attr('stroke', '#F7FAFC')
+      .attr('d', path);
+}
 
 // Function to display the incident log
 function displayIncidentLog(alerts) {

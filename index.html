@@ -106,10 +106,31 @@
       <div class="tab-content" id="v-pills-tabContent">
         <!-- HOME PAGE -->
         <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
-          <div class="card">
-            <svg class="basic" version="1.1" baseProfile="full", xmlns="http://www.w3.org/2000/svg">
-              
-            </svg>
+          <div class="row">
+            <div class="col-lg-8 col-sm-12">
+              <div class="card">
+                <div class="card-header table-header">
+                  <h4>Types of Incidents</h4>
+                  <span>Which types of incidents occur most/least frequently?</span>
+                </div>
+                <div class="card-body no-footer">
+                  <svg class="basic-histogram" version="1.1" baseProfile="full" , xmlns="http://www.w3.org/2000/svg">
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-sm-12">
+              <div class="card">
+                <div class="card-header table-header">
+                  <h4>Attackers</h4>
+                  <span>Who causes the most/least incidents?</span>
+                </div>
+                <div class="card-body no-footer text-center">
+                  <svg class="basic-pie" version="1.1" baseProfile="full" , xmlns="http://www.w3.org/2000/svg">
+                  </svg>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -169,7 +190,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
   <!-- D3.js -->
-  <script src="https://d3js.org/d3.v3.js"></script>
+  <script src="https://d3js.org/d3.v4.js"></script>
   <!-- List.js -->
   <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
   <!-- App.js -->
