@@ -26,12 +26,17 @@ var options = {
   item: `<tr><td class="key td-main"></td><td class="description"></td><td class="created_printable text-right"</tr>`
 };
 
-// Get JSON data using the fetch api and ES7 async/await
 /*
-    The fetch api has limited browser supoort and yet I still chose to use it.
-    Why? Because it demonstrates my knowledge of it, ES6/7 and because of its clean syntax.
-    I can still go the standard XHR/JQuery/Axios route just chose not to.
+**
+** PULL DATA
+**
 */
+/*
+The fetch api has limited browser supoort and yet I still chose to use it.
+Why? Because it demonstrates my knowledge of it, ES6/7 and because of its clean syntax.
+I can still go the standard XHR/JQuery/Axios route just chose not to.
+*/
+// Get JSON data using the fetch api and ES7 async/await
 getJSON();
 async function getJSON() {
   try {
@@ -44,8 +49,12 @@ async function getJSON() {
   }
 }
 
-
-// Higher order function responsible for controling/processing data and d3 visualisations.
+/*
+**
+** QUATERBACK (CONTROL) FUNCTION
+**
+*/
+// Higher order function responsible for conduction process flow.
 function output(data) {
   // Change the the created_printable dates to be more readable  
   let alerts = data.alerts;
@@ -62,72 +71,56 @@ function output(data) {
     returnValue.created_printable = date;
     return returnValue;
   })
+  // Get basic data
   let devices = data.device_list;
-  createIncidentLog(alertsWithReadableDate);
-
   let numAlerts = alerts.length;
   let numDevices = devices.length;
-  document.getElementById('num-incidents').innerText = numAlerts;
 
-  viz1(alerts);
+  // Process and clean data for the different visualisations
+  let attackDescriptionData = typesOfAttacksData(alerts);
 
-  /*let uniqueAttackers = retrieveUniqueAttackers(alerts);
-  let numUniqueAttackers = uniqueAttackers.length;
-  let typesOfAttacks = retrieveTypesOfAttacks(alerts);
-  let numDisconnects = calcDisconnects(alerts);*/
+  // Display the respective visualisations
+  displayDescriptionViz(attackDescriptionData);
+  displayIncidentLog(alertsWithReadableDate);
+  document.getElementById("num-incidents").innerText = numAlerts;
 }
 
-
-// Function to create the incident log with search and sort functionality
-function createIncidentLog(alerts) {
-  let incidentList = new List('incident-list', options, alerts); // Instantiate new incident log
-
-  // On search
-  $('#search-field').on('keyup', function () {
-    $("#v-pills-incidents-tab").tab("show"); // Got to incident log screen
-    var searchString = $(this).val(); // Search
-    incidentList.search(searchString);
-  });
-}
-
-let dataStyle = [
-  {
-    "description": "Canary Disconeected",
-    "quantity": 40
-  },
-  {
-    "description": "HTTP Login Attempt",
-    "quantity": 13
-  },
-  {
-    "description": "Host Port Scan",
-    "quantity": 15
-  },
-]
-
-// Function to do visualisation 1
-function viz1(alerts) {
+/*
+**
+** DATA PROCESSING
+**
+*/
+// Populate array with objects containing a description and the amount of times an attack of that description has occured
+function typesOfAttacksData(alerts) {
   let attackTypes = retrieveTypesOfAttacks(alerts);
   let data = [];
 
-  // Populate data array with objects containing a description and the amount o times an attack of that description has occured
   attackTypes.forEach(type => {
     let newObj = new Object();
     newObj.description = type;
     newObj.quantity = 0;
-    data.push(newObj)
-  })
-  alerts.map((alert) => {
+    data.push(newObj);
+  });
+  alerts.map(alert => {
     let desc = alert.description;
     data.forEach(d => {
       if (d.description === desc) {
         d.quantity++;
       }
-    })
-  })
-  console.log(data)
+    });
+  });
 
-  let width = 1000;
+  return data;
+}
+
+/*
+**
+** VISUALISATIONS
+**
+*/
+// Function to do visualisation 1
+function displayDescriptionViz(data) {
+  let width = 500;
   let height = 200;
   let numBars = data.length;
   let barPadding = 10;
@@ -153,6 +146,23 @@ function viz1(alerts) {
     .attr("fill", "#6772E5")
 }
 
+// Function to display the incident log
+function displayIncidentLog(alerts) {
+  let incidentList = new List('incident-list', options, alerts); // Instantiate new incident log
+
+  // On search
+  $('#search-field').on('keyup', function () {
+    $("#v-pills-incidents-tab").tab("show"); // Got to incident log screen
+    var searchString = $(this).val(); // Search
+    incidentList.search(searchString);
+  });
+}
+
+/*
+**
+** HELPER FUNCTIONS
+**
+*/
 // Return the unique types of attacks
 function retrieveTypesOfAttacks(alerts) {
   let arrTypesOfAttacks = []
