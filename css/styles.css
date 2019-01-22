@@ -135,9 +135,9 @@ section {
   line-height: 1;
   margin-bottom: 4px;
   background-color: transparent !important;
-  color: #2a2f45;
   position: relative;
   left: 8px;
+  color: #2a2f45;
 }
 .nav-pills .active {
   color: #556cd6 !important;
