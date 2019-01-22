@@ -143,9 +143,12 @@ section {
   color: #556cd6 !important;
   font-weight: 500;
 }
-.nav-pills #v-pills-home-tab,
-.nav-pills #v-pills-devices-tab {
-  margin-bottom: 20px;
+.nav-pills .disabled {
+  color: #A3ACB8;
+}
+.nav-pills #v-pills-messages-tab,
+.nav-pills #v-pills-incidents-tab {
+  margin-top: 20px;
 }
 .nav-pills .sidebar-icon {
   width: 28px;
