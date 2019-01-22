@@ -269,9 +269,6 @@ button:focus {
   padding: 0;
   margin-bottom: 12px;
 }
-.card:nth-last-child(1) {
-  margin-bottom: 48px;
-}
 .card .card-header {
   padding: 0;
   background: #FFF;

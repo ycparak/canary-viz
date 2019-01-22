@@ -46,14 +46,15 @@ function output(data) {
   // Get basic data
   let devices = data.device_list;
   let numAlerts = alerts.length;
-  let numDevices = devices.length;
 
-  // Process and clean data for the different visualisations
+  // DATA PROCESSING - Process and clean data for the different visualisations
   let attackDescriptionData = typesOfAttacksData(alerts);
   let attackerCountData = attackerData(alerts);
+  let deviceCountData = deviceData(alerts);
 
-  // Display the respective visualisations
-  displayAttackerPieChart(attackerCountData)
+  // DATA VISUALISATION - Display the respective visualisations
+  displayPieChart(attackerCountData, ".attacker-pie", "IP Address", "attackerGroup");
+  displayPieChart(deviceCountData, ".device-pie", "Device ID", "deviceGroup");
   displayIncidentLog(alertsWithReadableDate);
   document.getElementById("num-incidents").innerText = numAlerts;
 }
@@ -122,32 +123,52 @@ function attackerData(alerts) {
   return data;
 }
 
+function deviceData(alerts) {
+  let deviceTypes = retrieveUniqueDevices(alerts);
+  let data = [];
+
+  deviceTypes.forEach(ip => {
+    let newObj = new Object({
+      'ip': ip,
+      total: 0,
+    });
+    data.push(newObj);
+  });
+  alerts.map(alert => {
+    let ip = alert.node_id;
+    data.forEach(d => {
+      if (d.ip == ip) d.total++;
+    })
+  })
+
+  return data;
+}
 /*
 **
 ** VISUALISATIONS
 **
 */
 // Display pie/doghnut chart of the number of incidnets generated from all host_ip’s
-function displayAttackerPieChart(data) {
+function displayPieChart(data, id, infoName, groupName) {
   let width = 250;
   let height = 250;
 
-  let ip_addresses = [];
-  data.forEach(i => { ip_addresses.push(i.ip) });
+  let dataDescription = [];
+  data.forEach(i => { dataDescription.push(i.ip); });
 
-  let colorScale = d3.scaleOrdinal().domain(ip_addresses).range(d3.schemeCategory20c);
+  let colorScale = d3.scaleOrdinal().domain(dataDescription).range(d3.schemeCategory20c);
   
   let tooltip = d3.select("body")
     .append("div")
       .classed("svg-tooltip", true)
 
   // Set svg measurements
-  d3.select('.basic-pie')
+  d3.select(id)
       .attr('width', width)
       .attr('height', height)
     .append('g')
       .attr('transform', 'translate(' + width / 2 + ', ' + height / 2 + ')')
-      .classed('pieGroup', true)
+      .classed(groupName, true)
 
   // Generate the mathematics of the svg
   let arcs = d3.pie()
@@ -161,7 +182,7 @@ function displayAttackerPieChart(data) {
     .padAngle(0.01)
 
   // Render the svg
-  d3.select(".pieGroup")
+  d3.select("." + groupName)
     .selectAll('.arc')
     .data(arcs)
     .enter()
@@ -177,7 +198,7 @@ function displayAttackerPieChart(data) {
           .style("opacity", 1)
           .style("left", d3.event.x - (tooltip.node().offsetWidth / 2) + "px")
           .style("top", d3.event.y + 30 + "px")
-          .html("<strong>IP Address: </strong>" + d.data.ip + "<br><span><strong>Incidents:</strong> " + d.value + "</span><br><br><span class='note'>Be sure to click me.</span>");
+          .html("<strong>" + infoName + ":</strong> " + d.data.ip + "<br><span><strong>Incidents:</strong> " + d.value + "</span><br><br><span class='note'>Click for more info.</span>");
       })
       // Tooltip mouse away
       .on("mouseout", () => {
@@ -186,7 +207,6 @@ function displayAttackerPieChart(data) {
       })
       // On click search the incident log
       .on("click", (d) => {
-        console.log("hello")
         $("#search-field").val(d.data.ip);
         $("#search-field").focus();
       })
@@ -258,6 +278,18 @@ function retrieveUniqueAttackers(alerts) {
     }
   });
   return arrUniqueAttackers;
+}
+
+// Return the node_id (IP) of every unique device
+function retrieveUniqueDevices(alerts) {
+  let arrUniqueDevices = [];
+  alerts.forEach(alert => {
+    let id = alert.node_id;
+    if (!arrUniqueDevices.includes(id)) {
+      arrUniqueDevices.push(id);
+    }
+  });
+  return arrUniqueDevices;
 }
 
 // Abreviate descriptions

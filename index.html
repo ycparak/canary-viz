@@ -122,7 +122,7 @@
             <div class="col-lg-8 col-sm-12">
               <div class="card">
                 <div class="card-header table-header">
-                  <h4>Types of Incidents</h4>
+                  <h4>Type Breakdown</h4>
                   <span>Which types of incidents occur most/least frequently?</span>
                 </div>
                 <div class="card-body no-footer">
@@ -134,11 +134,37 @@
             <div class="col-lg-4 col-sm-12">
               <div class="card">
                 <div class="card-header table-header">
-                  <h4>Attackers</h4>
-                  <span>Who causes the most/least incidents?</span>
+                  <h4>IP Breakdown</h4>
+                  <span>Incidents per attacker (ip address).</span>
                 </div>
                 <div class="card-body no-footer text-center">
-                  <svg class="basic-pie" version="1.1" baseProfile="full" , xmlns="http://www.w3.org/2000/svg">
+                  <svg class="attacker-pie" version="1.1" baseProfile="full" , xmlns="http://www.w3.org/2000/svg">
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-sm-12">
+              <div class="card">
+                <div class="card-header table-header">
+                  <h4>Experimental Force Directed Graph</h4>
+                  <span></span>
+                </div>
+                <div class="card-body no-footer">
+                  <svg class="force" version="1.1" baseProfile="full" , xmlns="http://www.w3.org/2000/svg">
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-sm-12">
+              <div class="card">
+                <div class="card-header table-header">
+                  <h4>Device Breakdown</h4>
+                  <span>Incidents per device (device id).</span>
+                </div>
+                <div class="card-body no-footer text-center">
+                  <svg class="device-pie" version="1.1" baseProfile="full" , xmlns="http://www.w3.org/2000/svg">
                   </svg>
                 </div>
               </div>
