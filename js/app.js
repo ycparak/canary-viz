@@ -176,8 +176,8 @@ function displayAttackerPieChart(data) {
       .on("mousemove", (d) => {
         tooltip
           .style("opacity", 1)
-          .style("left", d3.event.x + "px")
-          .style("top", d3.event.y + "px")
+          .style("left", d3.event.x - (tooltip.node().offsetWidth / 2) + "px")
+          .style("top", d3.event.y + 30 + "px")
           .html("<strong>IP Address: </strong>" + d.data.ip + "<br><span><strong>Incidents:</strong> " + d.value + "</span><br><br><span class='note'>Be sure to click me.</span>")
       })
       // Tooltip mouse away
