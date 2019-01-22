@@ -123,11 +123,9 @@
               <div class="card">
                 <div class="card-header table-header">
                   <h4>Type Breakdown</h4>
-                  <span>Which types of incidents occur most/least frequently?</span>
+                  <span>Incidents per description.</span>
                 </div>
-                <div class="card-body no-footer">
-                  <svg class="basic-histogram" version="1.1" baseProfile="full" , xmlns="http://www.w3.org/2000/svg">
-                  </svg>
+                <div class="card-body no-footer card-main-viz" id="description">
                 </div>
               </div>
             </div>
@@ -144,15 +142,23 @@
               </div>
             </div>
           </div>
+
           <div class="row">
             <div class="col-lg-8 col-sm-12">
               <div class="card">
                 <div class="card-header table-header">
-                  <h4>Experimental Force Directed Graph</h4>
-                  <span></span>
+                  <div class="row">
+                    <div class="col-6">
+                      <h4>Recent Incidents</h4>
+                      <span>The 5 most recent incidents.</span>
+                    </div>
+                    <div class="col-6 align-self-center text-right">
+                      <button class="btn btn-medium btn-default margin-left--4"><span class="margin-left--4">View full Incident log</span></a>
+                    </div>
+                  </div>
                 </div>
-                <div class="card-body no-footer">
-                  <svg class="force" version="1.1" baseProfile="full" , xmlns="http://www.w3.org/2000/svg">
+                <div class="card-body no-footer card-main-viz">
+                  <svg class="" version="1.1" baseProfile="full" , xmlns="http://www.w3.org/2000/svg">
                   </svg>
                 </div>
               </div>
@@ -161,13 +167,24 @@
               <div class="card">
                 <div class="card-header table-header">
                   <h4>Device Breakdown</h4>
-                  <span>Incidents per device (device id).</span>
+                  <span>Incidents per device.</span>
                 </div>
                 <div class="card-body no-footer text-center">
                   <svg class="device-pie" version="1.1" baseProfile="full" , xmlns="http://www.w3.org/2000/svg">
                   </svg>
                 </div>
               </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header table-header">
+              <h4>Attacker Per Type (Incomplete)</h4>
+              <span>Incidents per attacker (ip address) segmented into the different types of incidents.</span>
+            </div>
+            <div class="card-body no-footer card-main-viz">
+              <svg class="attack-breakdown" version="1.1" baseProfile="full" , xmlns="http://www.w3.org/2000/svg">
+              </svg>
             </div>
           </div>
         </div>
@@ -182,7 +199,7 @@
                   <span>Click on any of the column headers to sort by that header. Use the search box above to find a specific incident.</span>
                 </div>
                 <div class="col-2 align-self-center text-right">
-                  <button class="btn btn-medium btn-default btn-disabled disabled margin-left--4"><i class="fa fa-cloud-download" aria-hidden="true"></i> <span class="margin-left--4">Export</span></button>
+                  <button class="btn btn-medium btn-disabled disabled margin-left--4"><i class="fa fa-cloud-download" aria-hidden="true"></i> <span class="margin-left--4">Export</span></button>
                 </div>
               </div>
             </div>
@@ -214,6 +231,7 @@
           </div>
         </div>
 
+        <!-- DESCRIPTIONS PAGE -->
         <div class="tab-pane fade" id="v-pills-thoughts" role="tabpanel" aria-labelledby="v-pills-thoughts-tab">Thoughts</div>
       </div>
     </div>

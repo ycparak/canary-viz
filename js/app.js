@@ -14,7 +14,7 @@ async function getJSON() {
   try {
     const response = await fetch('../data/data.json');
     const data = await response.json();
-    output(data);
+    quaterback(data);
   }
   catch(error) {
     console.log(error); 
@@ -27,7 +27,7 @@ async function getJSON() {
 **
 */
 // Higher order function responsible for conduction process flow.
-function output(data) {
+function quaterback(data) {
   // Change the the created_printable dates to be more readable  
   let alerts = data.alerts;
   let alertsWithReadableDate = data.alerts.map(alert => {
@@ -48,13 +48,16 @@ function output(data) {
   let numAlerts = alerts.length;
 
   // DATA PROCESSING - Process and clean data for the different visualisations
-  let attackDescriptionData = typesOfAttacksData(alerts);
+  let descriptionCountData = typesOfAttacksData(alerts);
+  let ipAttacksPerDescriptionData = ipAttacksPerDescription(alerts);
   let attackerCountData = attackerData(alerts);
   let deviceCountData = deviceData(alerts);
 
   // DATA VISUALISATION - Display the respective visualisations
+  displayBarChart(descriptionCountData);
   displayPieChart(attackerCountData, ".attacker-pie", "IP Address", "attackerGroup");
   displayPieChart(deviceCountData, ".device-pie", "Device ID", "deviceGroup");
+  dispplayStackedBarChart(ipAttacksPerDescriptionData, ".attack-breakdown", retrieveTypesOfAttacks(alerts));
   displayIncidentLog(alertsWithReadableDate);
   document.getElementById("num-incidents").innerText = numAlerts;
 }
@@ -75,7 +78,7 @@ function typesOfAttacksData(alerts) {
       'description': type,
       'desc': desc,
       'total': 0,
-      'src_host': {}
+      // 'src_host': {}
     });
     data.push(newObj);
   });
@@ -85,7 +88,7 @@ function typesOfAttacksData(alerts) {
     data.forEach(d => {
       if (d.description === desc) {
         d.total++;
-        if (d.src_host[ip] !== undefined) {
+        /*if (d.src_host[ip] !== undefined) {
           d.src_host[ip] = d.src_host[ip] + 1;
         }
         else if (ip !== "") {
@@ -93,10 +96,50 @@ function typesOfAttacksData(alerts) {
             ...d.src_host,
             [`${ip}`]: 1
           }
-        }
+        }*/
       }
     });
   });
+
+  return data;
+}
+
+// Populate array with objects containing an ip, total attacks by ip, total attacks by ip per description
+function ipAttacksPerDescription(alerts) {
+  let attackTypes = retrieveTypesOfAttacks(alerts);
+  let attackers = retrieveUniqueAttackers(alerts);
+
+  // Remove 'Canary Disconnected' from attackers array which should contain just IP's
+  let index = attackers.indexOf("Canary Disconnected");
+  attackers.splice(index, 1);
+
+  // Create an array of objects with a specific structure
+  let data = [];
+  attackers.forEach(ip => {
+    let newObj = new Object();
+    attackTypes.forEach(type => {
+      newObj.ip = ip;
+      newObj.total = 0;
+      newObj[`${type}`] = 0
+    })
+    data.push(newObj);
+  });
+  // Populate array of objects with data from alerts
+  alerts.map(alert => {
+    let desc = alert.description;
+    let ip = alert.src_host;
+    data.forEach(d => {
+      let keys = Object.keys(d);
+      keys.shift();
+      keys.shift();
+      if (d.ip === ip) {
+        d.total++;
+        keys.map(key => {
+          if (key === desc) {d[`${desc}`]++} 
+        })
+      }
+    })
+  })
 
   return data;
 }
@@ -148,7 +191,85 @@ function deviceData(alerts) {
 ** VISUALISATIONS
 **
 */
-// Display pie/doghnut chart of the number of incidnets generated from all host_ip’s
+// Display bar chart
+function displayBarChart(data) {
+  console.log(data);
+
+  let totalArray = [];
+  data.map(d => {
+    totalArray.push(d.total);
+  });
+
+  let height = 170;
+  let width = 600;
+  let padding = {top: 40, right: 60, bottom: 40, left: 80}
+
+  let canvas = d3.select('#description')
+    .append("svg")
+    .attr("class", "barChart")
+    .attr("width", width + padding.left + padding.right)
+    .attr("height", height + padding.top + padding.bottom)
+    .append("g")
+    .attr("transform", "translate(" + padding.left + ", " + padding.right + ")")
+
+  let yAxis = canvas.append("g")
+    .attr("class", "axis")
+    .attr("transform", "translate(-4, -1)")
+
+  function update(data, t) {
+    let barWidth = width / data.length;
+
+    let yScale = d3.scaleLinear()
+      .domain([0, d3.max(totalArray)])
+      .range([height, 0]);
+
+    yAxis.call(d3.axisLeft(yScale));
+
+    let bar = canvas.selectAll(".bar")
+      .data(data);
+
+    let tooltip = d3.select("body")
+      .append("div")
+      .classed("svg-tooltip", true)
+
+    bar.enter()
+      .append("rect")
+      .style("border-radius", "60x")
+      .attr("class", "bar")
+      .attr("fill", "#566CD6")
+      .attr("x", (d, i) => {
+        return i * barWidth;
+      })
+      .attr("width", barWidth - 1)
+      .on("mouseover", function() {
+        d3.select(this).attr("fill", "#3a97d4");
+      })
+      .on("mousemove", (d) => {
+        tooltip
+          .style("opacity", 1)
+          .style("left", d3.event.x - (tooltip.node().offsetWidth / 2) + "px")
+          .style("top", d3.event.y + 30 + "px")
+          .html("<strong>Description: </strong> " + d.description + "<br><span><strong>Incidents:</strong> " + d.total + "</span><br><br><span class='note'>Click for more info.</span>");
+      })
+      .on("mouseout", function() {
+        d3.select(this).transition().attr("fill", "#566CD6");
+        tooltip
+          .style("opacity", 0)
+      })
+      .merge(bar)
+      .transition(t)
+      .attr("y", d => {
+        return yScale(d.total);
+      })
+      .attr("height", d => {
+        return height - yScale(d.total);
+      });
+  }
+
+  update(data);
+}
+
+// Display pie/doghnut chart 
 function displayPieChart(data, id, infoName, groupName) {
   let width = 250;
   let height = 250;
@@ -188,11 +309,16 @@ function displayPieChart(data, id, infoName, groupName) {
     .enter()
     .append('path')
       .classed('arc', true)
-      // .attr('fill', 'd => colorScale( d.data.ip )')
+      // .attr('fill', d => colorScale( d.data.ip ))
+      // .attr('fill', colorScale)
       .attr('fill', '#566CD6')
       .attr('stroke', '#F7FAFC')
       .attr('d', path)
       // Tooltip mouse over
+      .on("mouseover", function() {
+        d3.select(this)
+          .attr("fill", "#3a97d4");
+      })
       .on("mousemove", (d) => {
         tooltip
           .style("opacity", 1)
@@ -201,7 +327,10 @@ function displayPieChart(data, id, infoName, groupName) {
           .html("<strong>" + infoName + ":</strong> " + d.data.ip + "<br><span><strong>Incidents:</strong> " + d.value + "</span><br><br><span class='note'>Click for more info.</span>");
       })
       // Tooltip mouse away
-      .on("mouseout", () => {
+      .on("mouseout", function() {
+        d3.select(this)
+          .transition()
+          .attr("fill", "#566CD6")
         tooltip
           .style("opacity", 0)
       })
@@ -212,6 +341,108 @@ function displayPieChart(data, id, infoName, groupName) {
       })
 }
 
+// Display stacked bar chart
+function dispplayStackedBarChart(data, id, initialKeys) {
+  //console.log(data);
+
+  // Create the svg
+  let svg = d3.select(id)
+  let margin = { top: 20, right: 20, bottom: 50, left: 40 };
+  let width = 900 - margin.left - margin.right;
+  let height = 250 - margin.top - margin.bottom;
+  // Set the colors
+  let z = d3.scaleOrdinal().range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00", "#94c5", "#7a6", "#239", "#450", "#111", "#515",]);
+  let g = svg
+    .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")"); 
+  
+  // Set x scale
+  let x = d3.scaleBand()
+    .rangeRound([0, width])
+    .paddingInner(0.05)
+    .align(0.1)
+
+  // Set y scale
+  let y = d3.scaleLinear()
+    .rangeRound([height, 0]);
+
+  // Create chart
+  let keys = initialKeys;
+
+  data.sort(function (a, b) { return b.total - a.total; });
+
+  x.domain(data.map(d => {
+    return d.ip;
+  }))
+  y.domain([0, d3.max(data, d => {
+    return d.total 
+  })]).nice();
+  z.domain(keys);
+
+  g.append("g")
+    .selectAll("g")
+      .data(d3.stack().keys(keys)(data))
+      .enter()
+    .append("g")
+      .attr("fill", d => { return z(d.key) })
+    .selectAll("rect")
+      .data(d => { return d })
+      .enter()
+    .append("rect")
+      .attr("x", d => { return x(d.data.ip) })
+    .attr("y", d => { 
+      if (isNaN(y(d[1]))) return 0
+      else return y(d[1])
+    })
+      .attr("height", d => { 
+        if (isNaN(Math.abs(y(d[0]) - y(d[1])))) return 0
+        else return Math.abs(y(d[0]) - y(d[1]));
+      })
+      .attr("width", x.bandwidth())
+    .on("mouseover", () => { tooltip.style("display", null) })
+    .on("mouseout", () => { tooltip.style("display", "none") })
+    .on("mousemove", d => {
+      var xPosition = d3.mouse(this)[0] - 5;
+      var yPosition = d3.mouse(this)[1] - 5;
+      tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
+      tooltip.select("text").text(d[1] - d[0]);
+    });
+
+  g.append("g")
+      .attr("class", "axis")
+      .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x));
+
+  g.append("g")
+      .attr("class", "axis")
+    .call(d3.axisLeft(y).ticks(null, "s"))
+    .append("text")
+      .attr("x", 2)
+      .attr("y", y(y.ticks().pop()) + 0.5)
+      .attr("dy", "0.32em")
+      .attr("fill", "#000")
+      .attr("font-weight", "bold")
+      .attr("text-anchor", "start");
+
+  // Prep the tooltip bits, initial display is hidden
+  var tooltip = svg.append("g")
+    .attr("class", "tooltip")
+    .style("display", "none");
+
+  tooltip.append("rect")
+    .attr("width", 60)
+    .attr("height", 20)
+    .attr("fill", "white")
+    .style("opacity", 0.5);
+
+  tooltip.append("text")
+    .attr("x", 30)
+    .attr("dy", "1.2em")
+    .style("text-anchor", "middle")
+    .attr("font-size", "12px")
+    .attr("font-weight", "bold");
+}
+ 
 // Function to display the incident log
 function displayIncidentLog(alerts) {
   // Structure of JSON object for listing, sorting and searching the incidents
