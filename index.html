@@ -145,21 +145,30 @@
 
           <div class="row">
             <div class="col-lg-8 col-sm-12">
-              <div class="card">
+              <div class="card no-footer">
                 <div class="card-header table-header">
                   <div class="row">
                     <div class="col-6">
                       <h4>Recent Incidents</h4>
-                      <span>The 5 most recent incidents.</span>
+                      <span>The 6 most recent incidents.</span>
                     </div>
                     <div class="col-6 align-self-center text-right">
-                      <button class="btn btn-medium btn-default margin-left--4"><span class="margin-left--4">View full Incident log</span></a>
+                      <button class="btn btn-medium btn-default margin-left--4" onclick="changeToLog()"><span class="margin-left--4">View full Incident log</span></a>
                     </div>
                   </div>
                 </div>
-                <div class="card-body no-footer card-main-viz">
-                  <svg class="" version="1.1" baseProfile="full" , xmlns="http://www.w3.org/2000/svg">
-                  </svg>
+                <div class="card-body">
+                  <table id="recent-list">
+                    <thead class="table-head">
+                      <tr>
+                        <th scope="col"><span class="sort" data-sort="description">Description</span></th>
+                        <th scope="col" class="text-right"><span class="sort" data-sort="created_printable">Created</span></th>
+                      </tr>
+                    </thead>
+                    <tbody class="table-body list">
+                      
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
@@ -179,8 +188,8 @@
 
           <div class="card">
             <div class="card-header table-header">
-              <h4>Attacker Per Type (Incomplete)</h4>
-              <span>Incidents per attacker (ip address) segmented into the different types of incidents.</span>
+              <h4>Attacker Per Type</h4>
+              <span>The number of incidents per attacker (ip address), segmented into the different types of incidents.</span>
             </div>
             <div class="card-body no-footer card-main-viz">
               <svg class="attack-breakdown" version="1.1" baseProfile="full" , xmlns="http://www.w3.org/2000/svg">

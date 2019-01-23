@@ -1,5 +1,4 @@
 // main: ../styles.less, compress: false, sourceMap: false
-
 .basic-pie {
   margin: 8px 0;
 }
@@ -34,26 +33,26 @@
   }
 }
 
-.arc {
+.arc, .bar, .rect {
   cursor: pointer;
 }
 
 .attack-breakdown {
   margin: 0 auto;
-  height: 250;
-  width: 900;
+  height: 500;
+  width: 1000;
 }
 
-.axis .domain {
-  display: none;
-}
-
-.axis text {
-  font-family: @font-secondary;
-  color: @color-body-text;
-}
-
-.axis line, .axis path {
-  display: block;
-  stroke: @color-icon;
+.barChart {
+  .axis .domain {
+    display: none;
+  }
+  .axis text {
+    color: @color-body-text;
+  }
+  .axis line,
+  .axis path {
+    display: block;
+    stroke: @color-icon;
+  }
 }

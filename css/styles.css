@@ -9,7 +9,6 @@ body {
   font-family: 'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 14px;
   min-height: 100vh;
-  overflow-x: hidden;
   padding-bottom: 24px;
 }
 .margin-left--4 {
@@ -406,23 +405,24 @@ button:focus {
   margin-left: -6px;
   border-radius: 25px;
 }
-.arc {
+.arc,
+.bar,
+.rect {
   cursor: pointer;
 }
 .attack-breakdown {
   margin: 0 auto;
-  height: 250;
-  width: 900;
+  height: 500;
+  width: 1000;
 }
-.axis .domain {
+.barChart .axis .domain {
   display: none;
 }
-.axis text {
-  font-family: 'Space Mono', 'Courier New', Courier, monospace;
+.barChart .axis text {
   color: #2a2f45;
 }
-.axis line,
-.axis path {
+.barChart .axis line,
+.barChart .axis path {
   display: block;
   stroke: #A3ACB8;
 }

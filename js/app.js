@@ -6,7 +6,7 @@
 /*
 The fetch api has limited browser supoort and yet I still chose to use it.
 Why? Because it demonstrates my knowledge of it, ES6/7 and because of its clean syntax.
-I can still go the standard XHR/JQuery/Axios route just chose not to.
+I can still go the standard XHR/JQuery/Axios/D3 route just chose not to.
 */
 // Get JSON data using the fetch api and ES7 async/await
 getJSON();
@@ -30,6 +30,7 @@ async function getJSON() {
 function quaterback(data) {
   // Change the the created_printable dates to be more readable  
   let alerts = data.alerts;
+  let devices = data.device_list;
   let alertsWithReadableDate = data.alerts.map(alert => {
     var returnValue = {...alert};
 
@@ -44,20 +45,21 @@ function quaterback(data) {
     return returnValue;
   })
   // Get basic data
-  let devices = data.device_list;
   let numAlerts = alerts.length;
 
   // DATA PROCESSING - Process and clean data for the different visualisations
   let descriptionCountData = typesOfAttacksData(alerts);
   let ipAttacksPerDescriptionData = ipAttacksPerDescription(alerts);
   let attackerCountData = attackerData(alerts);
-  let deviceCountData = deviceData(alerts);
+  let deviceCountData = deviceData(alerts, devices);
+  let recentIncidentData = mostRecentIncidentData(alertsWithReadableDate);
 
   // DATA VISUALISATION - Display the respective visualisations
   displayBarChart(descriptionCountData);
   displayPieChart(attackerCountData, ".attacker-pie", "IP Address", "attackerGroup");
   displayPieChart(deviceCountData, ".device-pie", "Device ID", "deviceGroup");
   dispplayStackedBarChart(ipAttacksPerDescriptionData, ".attack-breakdown", retrieveTypesOfAttacks(alerts));
+  displayRecentIncidents(recentIncidentData);
   displayIncidentLog(alertsWithReadableDate);
   document.getElementById("num-incidents").innerText = numAlerts;
 }
@@ -166,13 +168,15 @@ function attackerData(alerts) {
   return data;
 }
 
-function deviceData(alerts) {
+// Populate array with objects containing a node_ip and the amount of incidents relating to that device
+function deviceData(alerts, devices) {
   let deviceTypes = retrieveUniqueDevices(alerts);
   let data = [];
 
   deviceTypes.forEach(ip => {
     let newObj = new Object({
-      'ip': ip,
+      ip: ip,
+      description: '',
       total: 0,
     });
     data.push(newObj);
@@ -180,10 +184,35 @@ function deviceData(alerts) {
   alerts.map(alert => {
     let ip = alert.node_id;
     data.forEach(d => {
-      if (d.ip == ip) d.total++;
+      if (d.ip === ip) d.total++;
+    })
+  })
+  devices.map(device => {
+    let node_id = device.node_id;
+    data.forEach(d => {
+      if (d.ip === node_id) {
+        d.description = device.description;
+      }
     })
   })
 
+  return data;
+}
+
+// Populate array with objects containing the 6 most recent incidents
+function mostRecentIncidentData(alerts) {
+  let data = [];
+  for(let i = 0; i < 6; i++) {
+    data.push(alerts[i])
+  }
+  alerts.forEach(alert => {
+    for(let i = 0; i < data.length; i++) {
+      if (data[i].created < alert.created) {
+        data.splice(i, 1)
+        data.push(alert);
+      }
+    }
+  })
   return data;
 }
 /*
@@ -193,28 +222,37 @@ function deviceData(alerts) {
 */
 // Display bar chart
 function displayBarChart(data) {
-  console.log(data);
 
   let totalArray = [];
   data.map(d => {
     totalArray.push(d.total);
   });
 
-  let height = 170;
+  let height = 212;
   let width = 600;
-  let padding = {top: 40, right: 60, bottom: 40, left: 80}
+  let padding = {top: 12, right: 60, bottom: 27, left: 60}
 
   let canvas = d3.select('#description')
     .append("svg")
-    .attr("class", "barChart")
-    .attr("width", width + padding.left + padding.right)
-    .attr("height", height + padding.top + padding.bottom)
+      .attr("class", "barChart")
+      .attr("width", width + padding.left + padding.right)
+      .attr("height", height + padding.top + padding.bottom)
     .append("g")
-    .attr("transform", "translate(" + padding.left + ", " + padding.right + ")")
+      .attr("transform", "translate(" + padding.left + ", " + padding.top + ")")
+
+  // Set x scale
+  let x = d3.scaleBand()
+    .rangeRound([0, width])
+    .paddingInner(0.05)
+    .align(0.1)
 
   let yAxis = canvas.append("g")
+      .attr("class", "axis")
+      .attr("transform", "translate(-4, -1)")
+
+  let xAxis = canvas.append("g")
     .attr("class", "axis")
-    .attr("transform", "translate(-4, -1)")
+    .attr("transform", "translate(0," + height + ")")
 
   function update(data, t) {
     let barWidth = width / data.length;
@@ -223,7 +261,12 @@ function displayBarChart(data) {
       .domain([0, d3.max(totalArray)])
       .range([height, 0]);
 
+    x.domain(data.map(d => {
+      return d.desc;
+    }))
+
     yAxis.call(d3.axisLeft(yScale));
+    xAxis.call(d3.axisBottom(x));
 
     let bar = canvas.selectAll(".bar")
       .data(data);
@@ -234,19 +277,20 @@ function displayBarChart(data) {
 
     bar.enter()
       .append("rect")
-      .style("border-radius", "60x")
-      .attr("class", "bar")
-      .attr("fill", "#566CD6")
-      .attr("x", (d, i) => {
-        return i * barWidth;
-      })
-      .attr("width", barWidth - 1)
+        .style("border-radius", "60x")
+        .attr("class", "bar")
+        .attr("fill", "#566CD6")
+        .attr("x", (d, i) => {
+          return i * barWidth;
+        })
+        .attr("width", barWidth - 1)
       .on("mouseover", function() {
-        d3.select(this).attr("fill", "#3a97d4");
+        d3.select(this).attr("fill", "#ADEEFF");
       })
-      .on("mousemove", (d) => {
+      .on("mousemove", (d) => {   
         tooltip
           .style("opacity", 1)
+          .style("cursor", "pointer")
           .style("left", d3.event.x - (tooltip.node().offsetWidth / 2) + "px")
           .style("top", d3.event.y + 30 + "px")
           .html("<strong>Description: </strong> " + d.description + "<br><span><strong>Incidents:</strong> " + d.total + "</span><br><br><span class='note'>Click for more info.</span>");
@@ -256,14 +300,19 @@ function displayBarChart(data) {
         tooltip
           .style("opacity", 0)
       })
+      // On click search the incident log
+      .on("click", (d) => {
+        $("#search-field").val(d.description);
+        $("#search-field").focus();
+      })
       .merge(bar)
       .transition(t)
-      .attr("y", d => {
-        return yScale(d.total);
-      })
-      .attr("height", d => {
-        return height - yScale(d.total);
-      });
+        .attr("y", d => {
+          return yScale(d.total);
+        })
+        .attr("height", d => {
+          return height - yScale(d.total);
+        });
   }
 
   update(data);
@@ -272,12 +321,12 @@ function displayBarChart(data) {
 // Display pie/doghnut chart 
 function displayPieChart(data, id, infoName, groupName) {
   let width = 250;
-  let height = 250;
+  let height = 251;
 
   let dataDescription = [];
   data.forEach(i => { dataDescription.push(i.ip); });
 
-  let colorScale = d3.scaleOrdinal().domain(dataDescription).range(d3.schemeCategory20c);
+  let colorScale = d3.scaleOrdinal().domain(dataDescription).range(["#D65757", "#D68157", "#D6AC57", "#D6D657", "#ACD657", "#81D657", "#57D657", "#57D681", "#57D6AC", "#57D6D6", "#57ACD6", "#5781D6", "#5757D6",]);
   
   let tooltip = d3.select("body")
     .append("div")
@@ -309,28 +358,32 @@ function displayPieChart(data, id, infoName, groupName) {
     .enter()
     .append('path')
       .classed('arc', true)
-      // .attr('fill', d => colorScale( d.data.ip ))
-      // .attr('fill', colorScale)
-      .attr('fill', '#566CD6')
+      .attr('fill', '#576CD6')
       .attr('stroke', '#F7FAFC')
       .attr('d', path)
       // Tooltip mouse over
       .on("mouseover", function() {
         d3.select(this)
-          .attr("fill", "#3a97d4");
+          .attr("fill", "#ADEEFF");
       })
       .on("mousemove", (d) => {
-        tooltip
+        groupName === "attackerGroup" && tooltip
           .style("opacity", 1)
           .style("left", d3.event.x - (tooltip.node().offsetWidth / 2) + "px")
           .style("top", d3.event.y + 30 + "px")
           .html("<strong>" + infoName + ":</strong> " + d.data.ip + "<br><span><strong>Incidents:</strong> " + d.value + "</span><br><br><span class='note'>Click for more info.</span>");
+
+        groupName === "deviceGroup" && tooltip
+            .style("opacity", 1)
+            .style("left", d3.event.x - tooltip.node().offsetWidth / 2 + "px")
+            .style("top", d3.event.y + 30 + "px")
+            .html("<strong>" + infoName + ":</strong> " + d.data.ip + "<br><strong>Description:</strong> " + d.data.description + "</strong><br><strong>Incidents:</strong> " + d.value + "<br><br><span class='note'>Click for more info.</span>");
       })
       // Tooltip mouse away
       .on("mouseout", function() {
         d3.select(this)
           .transition()
-          .attr("fill", "#566CD6")
+          .attr("fill", "#576CD6");
         tooltip
           .style("opacity", 0)
       })
@@ -348,10 +401,10 @@ function dispplayStackedBarChart(data, id, initialKeys) {
   // Create the svg
   let svg = d3.select(id)
   let margin = { top: 20, right: 20, bottom: 50, left: 40 };
-  let width = 900 - margin.left - margin.right;
-  let height = 250 - margin.top - margin.bottom;
+  let width = 1000 - margin.left - margin.right;
+  let height = 500 - margin.top - margin.bottom;
   // Set the colors
-  let z = d3.scaleOrdinal().range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00", "#94c5", "#7a6", "#239", "#450", "#111", "#515",]);
+  let z = d3.scaleOrdinal().range(["#FFCDD2", "#F48FB1", "#BA68C8", "#E57373", "#EC407A", "#9C27B0", "#F44336", "#D81B60", "#7B1FA2", "#D32F2F", "#AD1457", "#4A148C", "#B71C1C",]);
   let g = svg
     .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")"); 
@@ -386,9 +439,10 @@ function dispplayStackedBarChart(data, id, initialKeys) {
     .append("g")
       .attr("fill", d => { return z(d.key) })
     .selectAll("rect")
-      .data(d => { return d })
-      .enter()
+    .data(d => { return d })
+    .enter()
     .append("rect")
+    .attr("class", "rect")
       .attr("x", d => { return x(d.data.ip) })
     .attr("y", d => { 
       if (isNaN(y(d[1]))) return 0
@@ -399,14 +453,11 @@ function dispplayStackedBarChart(data, id, initialKeys) {
         else return Math.abs(y(d[0]) - y(d[1]));
       })
       .attr("width", x.bandwidth())
-    .on("mouseover", () => { tooltip.style("display", null) })
-    .on("mouseout", () => { tooltip.style("display", "none") })
-    .on("mousemove", d => {
-      var xPosition = d3.mouse(this)[0] - 5;
-      var yPosition = d3.mouse(this)[1] - 5;
-      tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
-      tooltip.select("text").text(d[1] - d[0]);
-    });
+    // On click search the incident log
+    .on("click", (d) => {
+      $("#search-field").val(d.data.ip);
+      $("#search-field").focus();
+    })
 
   g.append("g")
       .attr("class", "axis")
@@ -423,24 +474,41 @@ function dispplayStackedBarChart(data, id, initialKeys) {
       .attr("fill", "#000")
       .attr("font-weight", "bold")
       .attr("text-anchor", "start");
+  
+  let legend = g.append("g")
+    .attr("font-family", "sans-serif")
+    .attr("font-size", 10)
+    .attr("text-anchor", "end")
+    .selectAll("g")
+    .data(keys.slice().reverse())
+    .enter().append("g")
+    .attr("transform", function (d, i) { return "translate(0," + i * 20 + ")"; });
 
-  // Prep the tooltip bits, initial display is hidden
-  var tooltip = svg.append("g")
-    .attr("class", "tooltip")
-    .style("display", "none");
+  legend.append("rect")
+    .attr("x", width - 19)
+    .attr("width", 19)
+    .attr("height", 19)
+    .attr("fill", z);
 
-  tooltip.append("rect")
-    .attr("width", 60)
-    .attr("height", 20)
-    .attr("fill", "white")
-    .style("opacity", 0.5);
-
-  tooltip.append("text")
-    .attr("x", 30)
-    .attr("dy", "1.2em")
-    .style("text-anchor", "middle")
-    .attr("font-size", "12px")
-    .attr("font-weight", "bold");
+  legend.append("text")
+    .attr("x", width - 24)
+    .attr("y", 9.5)
+    .attr("dy", "0.32em")
+    .text(function (d) { return d; });
+}
+ 
+// Function to display the rcent incidents
+function displayRecentIncidents(alerts) {
+  // Structure of JSON object for listing, sorting and searching the incidents
+  const options = {
+    valueNames: [
+      "created",
+      "created_printable",
+      "description",
+    ],
+    item: `<tr><td class="description td-main"></td><td class="created_printable text-right"</tr>`
+  };
+  let recentList = new List('recent-list', options, alerts); // Instantiate new incident log
 }
  
 // Function to display the incident log
@@ -530,4 +598,9 @@ function abbreviate(str1) {
     return (split_names[0] + " " + split_names[1].charAt(0) + ".");
   }
   return split_names[0];
+}
+
+// Change from current page to incident log page
+function changeToLog() {
+  $("#v-pills-incidents-tab").tab("show");
 }
