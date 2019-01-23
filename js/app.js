@@ -325,8 +325,6 @@ function displayPieChart(data, id, infoName, groupName) {
 
   let dataDescription = [];
   data.forEach(i => { dataDescription.push(i.ip); });
-
-  let colorScale = d3.scaleOrdinal().domain(dataDescription).range(["#D65757", "#D68157", "#D6AC57", "#D6D657", "#ACD657", "#81D657", "#57D657", "#57D681", "#57D6AC", "#57D6D6", "#57ACD6", "#5781D6", "#5757D6",]);
   
   let tooltip = d3.select("body")
     .append("div")
@@ -402,9 +400,9 @@ function dispplayStackedBarChart(data, id, initialKeys) {
   let svg = d3.select(id)
   let margin = { top: 20, right: 20, bottom: 50, left: 40 };
   let width = 1000 - margin.left - margin.right;
-  let height = 500 - margin.top - margin.bottom;
+  let height = 400 - margin.top - margin.bottom;
   // Set the colors
-  let z = d3.scaleOrdinal().range(["#FFCDD2", "#F48FB1", "#BA68C8", "#E57373", "#EC407A", "#9C27B0", "#F44336", "#D81B60", "#7B1FA2", "#D32F2F", "#AD1457", "#4A148C", "#B71C1C",]);
+  let z = d3.scaleOrdinal().range(['#A7EEEF', '#97DCEB', '#ADE9F0', '#77ABE1', '#678DDC', '#586CD6', '#4F52C6', '#5447B5', '#593FA4', '#5B3793', '#5B2F81', '#58286F']);
   let g = svg
     .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")"); 
