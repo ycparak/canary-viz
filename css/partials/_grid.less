@@ -4,7 +4,7 @@ section {
 
   // Large devices (normal monitors, 992px and up)
   @media (min-width: 992px) {
-    grid-template-columns: 304px 1fr;
+    grid-template-columns: 20vw 1fr;
     min-height: calc(~"100vh - 60px"); 
   }
 }
@@ -28,7 +28,10 @@ section {
 }
 
 .main {
-  padding-right: 44px;
+    padding: 0 22px;
+  @media (min-width: 992px) {
+    padding: 0 44px 0 0;
+  }
 }
 
 .col-sm-12 {

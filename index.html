@@ -119,21 +119,21 @@
         <!-- HOME PAGE -->
         <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
           <div class="row">
-            <div class="col-lg-8 col-sm-12">
+            <div class="col-xl-8 col-sm-12">
               <div class="card">
                 <div class="card-header table-header">
-                  <h4>Type Breakdown</h4>
-                  <span>Incidents per description.</span>
+                  <h4>Incident Types</h4>
+                  <span>Number of incidents per type of incident</span>
                 </div>
                 <div class="card-body no-footer card-main-viz" id="description">
                 </div>
               </div>
             </div>
-            <div class="col-lg-4 col-sm-12">
+            <div class="col-xl-4 col-sm-12">
               <div class="card">
                 <div class="card-header table-header">
-                  <h4>IP Breakdown</h4>
-                  <span>Incidents per attacker (ip address).</span>
+                  <h4>Source IP Addresses</h4>
+                  <span>Distribution of incidents per IP address</span>
                 </div>
                 <div class="card-body no-footer text-center">
                   <svg class="attacker-pie" version="1.1" baseProfile="full" , xmlns="http://www.w3.org/2000/svg">
@@ -144,13 +144,13 @@
           </div>
 
           <div class="row">
-            <div class="col-lg-8 col-sm-12">
+            <div class="col-xl-8 col-sm-12">
               <div class="card no-footer">
                 <div class="card-header table-header">
                   <div class="row">
                     <div class="col-6">
                       <h4>Recent Incidents</h4>
-                      <span>The 6 most recent incidents.</span>
+                      <span>Most recent/pertinent incidents</span>
                     </div>
                     <div class="col-6 align-self-center text-right">
                       <button class="btn btn-medium btn-default margin-left--4" onclick="changeToLog()"><span class="margin-left--4">View full Incident log</span></a>
@@ -172,11 +172,11 @@
                 </div>
               </div>
             </div>
-            <div class="col-lg-4 col-sm-12">
+            <div class="col-xl-4 col-sm-12">
               <div class="card">
                 <div class="card-header table-header">
-                  <h4>Device Breakdown</h4>
-                  <span>Incidents per device.</span>
+                  <h4>Devices</h4>
+                  <span>Distribution of incidents per device</span>
                 </div>
                 <div class="card-body no-footer text-center">
                   <svg class="device-pie" version="1.1" baseProfile="full" , xmlns="http://www.w3.org/2000/svg">
@@ -191,8 +191,8 @@
         <div class="tab-pane fade" id="v-pills-incidents" role="tabpanel" aria-labelledby="v-pills-incidents-tab">
           <div class="card">
             <div class="card-header table-header">
-              <h4>Attacker Per Type</h4>
-              <span>The number of incidents contributed by each attacker (ip address), segmented into the different types of incidents.</span>
+              <h4>IP Address / Incident Type</h4>
+              <span>Number of incidents per source (ip address) segmented by incident type</span>
             </div>
             <div class="card-body no-footer card-main-viz">
               <svg class="attack-breakdown" version="1.1" baseProfile="full" , xmlns="http://www.w3.org/2000/svg">
@@ -239,7 +239,45 @@
         </div>
 
         <!-- DESCRIPTIONS PAGE -->
-        <div class="tab-pane fade" id="v-pills-thoughts" role="tabpanel" aria-labelledby="v-pills-thoughts-tab">Thoughts</div>
+        <div class="tab-pane fade" id="v-pills-thoughts" role="tabpanel" aria-labelledby="v-pills-thoughts-tab">
+          <div class="card no-footer">
+            <div class="card-header table-header">
+              <h4>My Thought Process</h4>
+            </div>
+            <div class="card-body no-footer" id="thoughts">
+              <div class="row">
+                <div class="col-md-6 sol-sm-12">
+                  <div class="content">
+                    <p>
+                      Hey Marco, I thought I’d just put together a short bit about the choices I made building this, so you have a better understanding of what I was trying to do.
+                    </p>
+                    <br>
+                    <p>Please use a laptop or desktop to view the site. I made the assumption that users would mostly use the site on their computers, so I didn’t really optimise for any responsiveness. That said, given more time, I would definitely make it responsive.</p>
+
+                    <p>I wanted to create something that was more than a visualisation. Since security information should always be about
+                      quickly getting necessary info, I wanted to optimise for usability over crazy graphics.</p>
+                    
+                    <p>To this end, I added search, even though it wasn’t a core requirement, just because a user would want an easy way to get a detailed view of each
+                      incident. I wanted to add a way for users to click on a search result and get all the information specific to that
+                      search result, but this was a bit too out of scope.</p>
+                    
+                    <p>I came up with a way that users could get all the information they need in 3 clicks or less. Try clicking on any
+                      graph.</p>
+                    
+                    <p>I intentionally kept the design minimalist to avoid distracting users from their core needs.</p>
+                    
+                    <p>The site is modelled as a fictional dashboard for Bryan Chesky, CEO of Airbnb. The site is as he would see it.
+                      That’s why if you click the profile icon on the top right we see the links to go to his profile or sign out. The sidebar continues with this approach, that’s why you see device settings, integrations, etc. This is what I crudely imagine a Canary Console needing.</p>
+
+                    <p>There is a minor bug with the search, but nothing that isn’t easily fixed given a bit more time. Additionally the incident log doesn’t sort the date column correctly, also easily fixed given time.</p> <br>
+
+                    <p>I enjoyed learning D3, thanks for the challenge, I hope it meets your expectations! Ping me if you have any questions.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
