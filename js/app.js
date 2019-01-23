@@ -44,8 +44,6 @@ function quaterback(data) {
     returnValue.created_printable = date;
     return returnValue;
   })
-  // Get basic data
-  let numAlerts = alerts.length;
 
   // DATA PROCESSING - Process and clean data for the different visualisations
   let descriptionCountData = typesOfAttacksData(alerts);
@@ -61,7 +59,6 @@ function quaterback(data) {
   dispplayStackedBarChart(ipAttacksPerDescriptionData, ".attack-breakdown", retrieveTypesOfAttacks(alerts));
   displayRecentIncidents(recentIncidentData);
   displayIncidentLog(alertsWithReadableDate);
-  document.getElementById("num-incidents").innerText = numAlerts;
 }
 
 /*
