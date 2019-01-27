@@ -276,13 +276,13 @@ function displayBarChart(data) {
       .append("rect")
         .style("border-radius", "60x")
         .attr("class", "bar")
-        .attr("fill", "#566CD6")
+        .attr("fill", "#56D38A")
         .attr("x", (d, i) => {
           return i * barWidth;
         })
         .attr("width", barWidth - 1)
       .on("mouseover", function() {
-        d3.select(this).attr("fill", "#ADEEFF");
+        d3.select(this).attr("fill", "#398383");
       })
       .on("mousemove", (d) => {   
         tooltip
@@ -293,7 +293,7 @@ function displayBarChart(data) {
           .html("<strong>Description: </strong> " + d.description + "<br><span><strong>Incidents:</strong> " + d.total + "</span><br><br><span class='note'>Click for more info.</span>");
       })
       .on("mouseout", function() {
-        d3.select(this).transition().attr("fill", "#566CD6");
+        d3.select(this).transition().attr("fill", "#56D38A");
         tooltip
           .style("opacity", 0)
       })
@@ -353,13 +353,13 @@ function displayPieChart(data, id, infoName, groupName) {
     .enter()
     .append('path')
       .classed('arc', true)
-      .attr('fill', '#576CD6')
-      .attr('stroke', '#F7FAFC')
+      .attr('fill', '#56D38A')
+      .attr('stroke', '#E1EDE8')
       .attr('d', path)
       // Tooltip mouse over
       .on("mouseover", function() {
         d3.select(this)
-          .attr("fill", "#ADEEFF");
+          .attr("fill", "#398383");
       })
       .on("mousemove", (d) => {
         groupName === "attackerGroup" && tooltip
@@ -378,7 +378,7 @@ function displayPieChart(data, id, infoName, groupName) {
       .on("mouseout", function() {
         d3.select(this)
           .transition()
-          .attr("fill", "#576CD6");
+          .attr("fill", "#56D38A");
         tooltip
           .style("opacity", 0)
       })
@@ -399,7 +399,7 @@ function dispplayStackedBarChart(data, id, initialKeys) {
   let width = 1000 - margin.left - margin.right;
   let height = 400 - margin.top - margin.bottom;
   // Set the colors
-  let z = d3.scaleOrdinal().range(['#A7EEEF', '#97DCEB', '#ADE9F0', '#77ABE1', '#678DDC', '#586CD6', '#4F52C6', '#5447B5', '#593FA4', '#5B3793', '#5B2F81', '#58286F']);
+  let z = d3.scaleOrdinal().range(['#BBF496', '#9CEF83', '#79E972', '#61E36F', '#51DB77', '#42D382', '#40BE89', '#3DAA8B', '#3A9689', '#368383', '#316871', '#2C515F']);
   let g = svg
     .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")"); 

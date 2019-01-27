@@ -1,5 +1,5 @@
 body {
-  background-color: #E3E8EE;
+  background-color: #E1EDE3;
   font-family: 'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 14px;
   min-height: 100vh;
@@ -88,7 +88,7 @@ section {
   position: absolute;
   padding: 6.5px 10px 10px 10px;
   pointer-events: none;
-  color: #c6cbd3;
+  color: #c5d2c8;
 }
 .navbar .central-container .left-addon .glyphicon {
   left: 0px;
@@ -107,17 +107,17 @@ section {
   width: 460px;
   font-size: 14px;
   height: 28px;
-  box-shadow: 0 0 0 1px rgba(49, 49, 93, 0.03), 0 2px 5px 0 rgba(49, 49, 93, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.08);
+  box-shadow: 0 0 0 1px rgba(48, 91, 75, 0.03), 0 2px 5px 0 rgba(48, 91, 75, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.08);
   padding: 8px;
   background-color: #fff;
   background-size: 13px 13px;
   border-radius: 4px;
   line-height: 28px;
   transition: box-shadow 0.2s ease-in-out;
-  color: #4f566b;
+  color: #4F6B59;
 }
 .navbar .central-container .search::placeholder {
-  color: #A3ACB8;
+  color: #A3B7A7;
   font-weight: 300;
 }
 .navbar .central-container .search:active,
@@ -137,14 +137,14 @@ section {
   background-color: transparent !important;
   position: relative;
   left: 8px;
-  color: #2a2f45;
+  color: #294435;
 }
 .nav-pills .active {
-  color: #556cd6 !important;
+  color: #4CBF7E !important;
   font-weight: 500;
 }
 .nav-pills .disabled {
-  color: #A3ACB8;
+  color: #A3B7A7;
 }
 .nav-pills #v-pills-messages-tab,
 .nav-pills #v-pills-incidents-tab {
@@ -159,13 +159,13 @@ section {
   height: 28px;
   width: 28px;
   border-radius: 14px;
-  box-shadow: 0 2px 5px 0 rgba(60, 66, 87, 0.1), 0 1px 1px 0 rgba(0, 0, 0, 0.07);
+  box-shadow: 0 2px 5px 0 rgba(61, 89, 72, 0.1), 0 1px 1px 0 rgba(0, 0, 0, 0.07);
   display: inline-block;
   border: none;
   outline: none !important;
   line-height: 28px;
   font-size: 18px;
-  color: #A3ACB8;
+  color: #A3B7A7;
   cursor: pointer;
   position: relative;
   top: -1px;
@@ -183,16 +183,16 @@ section {
 }
 .dropdown-menu {
   border: none;
-  box-shadow: 0px 0px 0px 1px rgba(136, 152, 170, 0.1), 0px 15px 35px 0px rgba(49, 49, 93, 0.1), 0px 5px 15px 0px rgba(0, 0, 0, 0.08);
+  box-shadow: 0px 0px 0px 1px rgba(136, 170, 141, 0.1), 0px 15px 35px 0px rgba(48, 91, 75, 0.1), 0px 5px 15px 0px rgba(0, 0, 0, 0.08);
   background: #fff;
   border-radius: 4px;
   margin-top: 8px;
   padding: 0;
 }
 .dropdown-menu .dropdown-divider {
-  color: #E3E8EE;
-  background: #E3E8EE;
-  border-color: #E3E8EE;
+  color: #E1EDE3;
+  background: #E1EDE3;
+  border-color: #E1EDE3;
 }
 .dropdown-menu .dropdown-box {
   padding: 16px 12px 8px 12px;
@@ -202,19 +202,19 @@ section {
 }
 .dropdown-menu .dropdown-box .dropdown-email {
   font-size: 16px;
-  color: #2a2f45;
+  color: #294435;
   font-weight: 500;
   line-height: 16px;
 }
 .dropdown-menu .dropdown-box .dropdown-auth {
-  color: #4f566b;
+  color: #4F6B59;
   font-size: 12px;
   line-height: 12px;
   margin-top: 4px;
   font-family: 'Space Mono', 'Courier New', Courier, monospace;
 }
 .dropdown-menu .dropdown-box .dropdown-link {
-  color: #556cd6;
+  color: #4CBF7E;
   font-size: 14px;
   line-height: 14px;
   margin-bottom: 20px;
@@ -248,39 +248,39 @@ button:focus {
   padding-bottom: 2px;
 }
 .btn-disabled {
-  box-shadow: 0 0 0 1px rgba(42, 47, 69, 0.1), 0 2px 5px 0 rgba(42, 47, 69, 0.06), 0 1px 1px 0 rgba(0, 0, 0, 0.04), 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+  box-shadow: 0 0 0 1px rgba(41, 68, 53, 0.1), 0 2px 5px 0 rgba(41, 68, 53, 0.06), 0 1px 1px 0 rgba(0, 0, 0, 0.04), 0 1px 2px 0 rgba(0, 0, 0, 0.04);
   cursor: default;
-  color: #4f566b;
+  color: #4F6B59;
   opacity: 0.5;
 }
 .btn-disabled:hover {
-  color: #4f566b;
+  color: #4F6B59;
 }
 .btn-disabled:active,
 .btn-disabled:focus {
   outline: none !important;
-  box-shadow: 0 0 0 1px rgba(42, 47, 69, 0.1), 0 2px 5px 0 rgba(42, 47, 69, 0.06), 0 1px 1px 0 rgba(0, 0, 0, 0.04), 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+  box-shadow: 0 0 0 1px rgba(41, 68, 53, 0.1), 0 2px 5px 0 rgba(41, 68, 53, 0.06), 0 1px 1px 0 rgba(0, 0, 0, 0.04), 0 1px 2px 0 rgba(0, 0, 0, 0.04);
 }
 .btn-default {
-  box-shadow: 0 0 0 1px rgba(42, 47, 69, 0.1), 0 2px 5px 0 rgba(42, 47, 69, 0.06), 0 1px 1px 0 rgba(0, 0, 0, 0.04), 0 1px 2px 0 rgba(0, 0, 0, 0.04);
-  color: #4f566b;
+  box-shadow: 0 0 0 1px rgba(41, 68, 53, 0.1), 0 2px 5px 0 rgba(41, 68, 53, 0.06), 0 1px 1px 0 rgba(0, 0, 0, 0.04), 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+  color: #4F6B59;
   padding: 0 8px 0 4px;
 }
 .btn-default:hover {
-  color: #2a2f45;
-  box-shadow: 0 0 0 1px rgba(42, 47, 69, 0.1), 0 2px 5px 0 rgba(42, 47, 69, 0.1), 0 3px 9px 0 rgba(42, 47, 69, 0.08), 0 1px 1.5px 0 rgba(0, 0, 0, 0.08), 0 1px 2px 0 rgba(0, 0, 0, 0.08);
+  color: #294435;
+  box-shadow: 0 0 0 1px rgba(41, 68, 53, 0.1), 0 2px 5px 0 rgba(41, 68, 53, 0.1), 0 3px 9px 0 rgba(41, 68, 53, 0.08), 0 1px 1.5px 0 rgba(0, 0, 0, 0.08), 0 1px 2px 0 rgba(0, 0, 0, 0.08);
 }
 .btn-default:active,
 .btn-default:focus {
   outline: none !important;
-  color: #2a2f45;
-  box-shadow: 0 0 0 1px rgba(42, 47, 69, 0.08), 0 2px 5px 0 rgba(42, 47, 69, 0.06), 0 1px 1.5px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  color: #294435;
+  box-shadow: 0 0 0 1px rgba(41, 68, 53, 0.08), 0 2px 5px 0 rgba(41, 68, 53, 0.06), 0 1px 1.5px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 }
 .card {
   background: #FFF;
   border: none;
   border-radius: 4px;
-  box-shadow: 0 7px 14px 0 rgba(60, 66, 87, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.07);
+  box-shadow: 0 7px 14px 0 rgba(59, 86, 70, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.07);
   padding: 0;
   margin-bottom: 12px;
 }
@@ -295,13 +295,13 @@ button:focus {
   font-weight: 500;
   font-size: 16px;
   line-height: 24px;
-  color: #2a2f45;
+  color: #294435;
   margin: 0;
 }
 .card .card-header span {
   font-size: 14px;
   line-height: 20px;
-  color: #4f566b;
+  color: #4F6B59;
 }
 .card .table-header {
   padding: 16px 20px;
@@ -309,19 +309,19 @@ button:focus {
 .card .card-body {
   padding: 0;
   margin: 0;
-  background: #F7FAFC;
+  background: #F7FCF7;
   box-shadow: none;
 }
 .card .card-body table {
   width: 100%;
 }
 .card .card-body .table-head {
-  background: #F7FAFC;
-  color: #2a2f45;
+  background: #F7FCF7;
+  color: #294435;
 }
 .card .card-body .table-head tr {
   padding: 20px 0;
-  box-shadow: inset 0 -1px #E3E8EE;
+  box-shadow: inset 0 -1px #E1EDE3;
 }
 .card .card-body .table-head tr th {
   padding: 8px 20px;
@@ -339,10 +339,10 @@ button:focus {
   background: #FFF;
 }
 .card .card-body .table-body tr {
-  color: #4f566b;
+  color: #4F6B59;
 }
 .card .card-body .table-body tr td {
-  box-shadow: inset 0 -1px #E3E8EE;
+  box-shadow: inset 0 -1px #E1EDE3;
   width: auto;
   vertical-align: top;
   text-align: left;
@@ -352,7 +352,7 @@ button:focus {
 }
 .card .card-body .table-body tr .td-main {
   font-weight: 500;
-  color: #2a2f45;
+  color: #294435;
 }
 .card .card-footer {
   padding: 20px;
@@ -363,7 +363,7 @@ button:focus {
   box-shadow: none;
   border: none;
   font-size: 14px;
-  color: #4f566b;
+  color: #4F6B59;
 }
 .card .card-footer #num-incidents {
   font-weight: 500;
@@ -380,15 +380,15 @@ button:focus {
   position: absolute;
   pointer-events: none;
   background-color: #fff;
-  border-top: 4px solid #F5925F;
-  box-shadow: 0px 0px 0px 1px rgba(136, 152, 170, 0.05), 0px 15px 35px 0px rgba(49, 49, 93, 0.05), 0px 5px 15px 0px rgba(0, 0, 0, 0.04);
+  border-top: 4px solid #FC3238;
+  box-shadow: 0px 0px 0px 1px rgba(136, 170, 141, 0.05), 0px 15px 35px 0px rgba(48, 91, 75, 0.05), 0px 5px 15px 0px rgba(0, 0, 0, 0.04);
   padding: 8px 12px;
   border-radius: 4px;
-  color: #4f566b;
+  color: #4F6B59;
   font-family: 'Space Mono', 'Courier New', Courier, monospace;
 }
 .svg-tooltip strong {
-  color: #2a2f45;
+  color: #294435;
   font-weight: 700;
 }
 .svg-tooltip .note {
@@ -400,7 +400,7 @@ button:focus {
   top: -20px;
   left: 50%;
   border: 10px solid transparent;
-  border-bottom-color: #F5925F;
+  border-bottom-color: #FC3238;
   margin-left: -6px;
   border-radius: 25px;
 }
@@ -418,16 +418,16 @@ button:focus {
   display: none;
 }
 .barChart .axis text {
-  color: #2a2f45;
+  color: #294435;
 }
 .barChart .axis line,
 .barChart .axis path {
   display: block;
-  stroke: #A3ACB8;
+  stroke: #A3B7A7;
 }
 #thoughts p {
   font-size: 14px;
-  color: #4f566b;
+  color: #4F6B59;
 }
 #thoughts .content {
   padding: 16px 24px;
