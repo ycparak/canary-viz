@@ -32,7 +32,7 @@ function quaterback(data) {
   let alerts = data.alerts;
   let devices = data.device_list;
   let alertsWithReadableDate = data.alerts.map(alert => {
-    var returnValue = {...alert};
+    let returnValue = {...alert};
 
     let created = alert.created_printable;
     let createdDate = new Date(created);
@@ -300,7 +300,7 @@ function displayBarChart(data) {
       // On click search the incident log
       .on("click", (d) => {
         $("#search-field").val(d.description);
-        $("#search-field").focus();
+        $("#search-field").keyup();
       })
       .merge(bar)
       .transition(t)
@@ -385,7 +385,7 @@ function displayPieChart(data, id, infoName, groupName) {
       // On click search the incident log
       .on("click", (d) => {
         $("#search-field").val(d.data.ip);
-        $("#search-field").focus();
+        $("#search-field").keyup();
       })
 }
 
@@ -451,7 +451,7 @@ function dispplayStackedBarChart(data, id, initialKeys) {
     // On click search the incident log
     .on("click", (d) => {
       $("#search-field").val(d.data.ip);
-      $("#search-field").focus();
+      $("#search-field").keyup();
     })
 
   g.append("g")
@@ -538,7 +538,7 @@ function displayIncidentLog(alerts) {
   let incidentList = new List('incident-list', options, alerts); // Instantiate new incident log
 
   // On search
-  $('#search-field').on('focus', function () {
+  $('#search-field').on('keyup', function () {
     $("#v-pills-incidents-tab").tab("show"); // Got to incident log screen
     var searchString = $(this).val(); // Search
     incidentList.search(searchString);
